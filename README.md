@@ -61,7 +61,7 @@ cp .env.example .env.local
 
 # 4. Env-Variablen setzen
 # .env.local
-NEXT_PUBLIC_OPENAI_API_KEY=sk-... # Optional, für echte AI-Features
+OPENAI_API_KEY=sk-... # Optional, für echte AI-Features
 NEXT_PUBLIC_DEMO_MODE=true         # true = lokale Demo-Daten
 
 # 5. Development-Server starten
@@ -219,7 +219,7 @@ relos-pwa/
 1. `npm run dev`
 2. Öffne http://localhost:3000
 3. Alle Screens durchklicken
-4. Test mit OpenAI API (wenn NEXT_PUBLIC_OPENAI_API_KEY gesetzt)
+4. Test mit OpenAI API (wenn OPENAI_API_KEY gesetzt)
 
 ### API Testing
 ```bash
@@ -245,7 +245,7 @@ git push
 vercel link
 
 # 3. Env-Variablen setzen in Vercel Dashboard
-NEXT_PUBLIC_OPENAI_API_KEY=...
+OPENAI_API_KEY=...
 
 # 4. Deploy
 vercel deploy

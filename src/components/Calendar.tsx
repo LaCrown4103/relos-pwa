@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useCouple } from '@/lib/CoupleContext';
 import { getCalendarEvents, addCalendarEvent } from '@/lib/dataManager';
 import { CalendarEvent, EventType } from '@/lib/types';
-import { Calendar as CalendarIcon, Plus, AlertCircle } from 'lucide-react';
+import { Plus, AlertCircle } from 'lucide-react';
 
 export const Calendar = () => {
-  const { coupleId, currentUser, partner } = useCouple();
+  const { coupleId, currentUser } = useCouple();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [showAddEvent, setShowAddEvent] = useState(false);
   const [newEvent, setNewEvent] = useState({

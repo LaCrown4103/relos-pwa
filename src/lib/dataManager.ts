@@ -53,7 +53,6 @@ export const initializeDemoData = (coupleId: string) => {
     };
 
     const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
     existingData.dailyStatus = [
       {
@@ -227,10 +226,14 @@ export const getSharedTasks = (coupleId: string): SharedTask[] => {
   return data.sharedTasks.filter((t) => t.coupleId === coupleId);
 };
 
-export const addSharedTask = (coupleId: string, task: Omit<SharedTask, 'id' | 'createdAt'>) => {
+export const addSharedTask = (
+  coupleId: string,
+  task: Omit<SharedTask, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.sharedTasks.push({
     ...task,
+    coupleId,
     id: 'task_' + Date.now(),
     createdAt: new Date().toISOString(),
   });
@@ -252,10 +255,14 @@ export const getCalendarEvents = (coupleId: string): CalendarEvent[] => {
   return data.calendarEvents.filter((e) => e.coupleId === coupleId);
 };
 
-export const addCalendarEvent = (coupleId: string, event: Omit<CalendarEvent, 'id' | 'createdAt'>) => {
+export const addCalendarEvent = (
+  coupleId: string,
+  event: Omit<CalendarEvent, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.calendarEvents.push({
     ...event,
+    coupleId,
     id: 'event_' + Date.now(),
     createdAt: new Date().toISOString(),
   });
@@ -268,10 +275,14 @@ export const getBucketList = (coupleId: string): BucketListItem[] => {
   return data.bucketList.filter((b) => b.coupleId === coupleId);
 };
 
-export const addBucketListItem = (coupleId: string, item: Omit<BucketListItem, 'id' | 'createdAt'>) => {
+export const addBucketListItem = (
+  coupleId: string,
+  item: Omit<BucketListItem, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.bucketList.push({
     ...item,
+    coupleId,
     id: 'bucket_' + Date.now(),
     createdAt: new Date().toISOString(),
   });

@@ -130,7 +130,7 @@ export const Connection = () => {
             </p>
           </div>
           <p className="text-sm text-gray-900 leading-relaxed font-medium">
-            "{dailyQuestion}"
+            &ldquo;{dailyQuestion}&rdquo;
           </p>
           <p className="text-xs text-gray-600 italic">
             Nehmen Sie sich Zeit für ein echtes Gespräch heute...

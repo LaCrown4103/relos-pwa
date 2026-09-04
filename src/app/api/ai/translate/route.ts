@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { originalMessage, coupleId } = await request.json();
+    const { originalMessage } = await request.json();
 
     if (!originalMessage) {
       return NextResponse.json(
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
 
     // Demo mode fallback if no API key

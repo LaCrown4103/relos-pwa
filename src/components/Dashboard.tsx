@@ -9,7 +9,7 @@ import {
   updateSharedTask,
 } from '@/lib/dataManager';
 import { SharedTask } from '@/lib/types';
-import { CheckCircle2, Circle, Trash2, Plus } from 'lucide-react';
+import { CheckCircle2, Circle, Plus } from 'lucide-react';
 
 export const Dashboard = () => {
   const { coupleId, currentUser, partner } = useCouple();

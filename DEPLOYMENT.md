@@ -22,7 +22,7 @@ cd relos-pwa
 vercel
 
 # 4. Im Dashboard Env-Variablen setzen:
-# NEXT_PUBLIC_OPENAI_API_KEY=sk-...
+# OPENAI_API_KEY=sk-...
 ```
 
 **Resultat:**
@@ -44,7 +44,7 @@ docker build -t relos-pwa .
 
 # 3. Ausführen
 docker run -p 3000:3000 \
-  -e NEXT_PUBLIC_OPENAI_API_KEY=sk-... \
+  -e OPENAI_API_KEY=sk-... \
   relos-pwa
 
 # 4. http://localhost:3000 öffnen
@@ -54,7 +54,7 @@ docker run -p 3000:3000 \
 
 ```bash
 # 1. Environment vorbereiten
-echo "NEXT_PUBLIC_OPENAI_API_KEY=sk-..." > .env.local
+echo "OPENAI_API_KEY=sk-..." > .env.local
 
 # 2. Starten
 docker-compose up -d
@@ -82,7 +82,7 @@ docker-compose down
 # - New Project
 # - GitHub Repo auswählen
 # - Add Environment Variables:
-#   NEXT_PUBLIC_OPENAI_API_KEY=sk-...
+#   OPENAI_API_KEY=sk-...
 
 # 4. Auto-Deploy bei Git Push
 ```
@@ -106,7 +106,7 @@ netlify deploy
 # - Select GitHub Repo
 # - Build Command: npm run build
 # - Publish Directory: .next
-# - Add Env: NEXT_PUBLIC_OPENAI_API_KEY
+# - Add Env: OPENAI_API_KEY
 ```
 
 ---
@@ -140,7 +140,7 @@ npm install
 
 # 5. Environment setzen
 nano .env.local
-# NEXT_PUBLIC_OPENAI_API_KEY=sk-...
+# OPENAI_API_KEY=sk-...
 # NODE_ENV=production
 
 # 6. Bauen
