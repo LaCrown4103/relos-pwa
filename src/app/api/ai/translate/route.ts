@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Demo-mode fallback used when no OPENAI_API_KEY is configured (e.g. this
-// preview deployment). It can't understand the message the way an LLM can,
-// but it must never show unfilled template placeholders — so it pulls the
-// actual observation/feeling/reason out of what the user wrote instead of
-// leaving generic bracket tokens like "[Emotion]" in the output.
+// preview deployment). Rewriting an arbitrary accusatory message into a
+// non-violent "I" statement WHILE preserving every piece of its actual
+// content is a language-understanding task — no regex/keyword system can
+// do that correctly for free-form text. Trying to fake it (e.g. by only
+// using the first sentence) silently drops the real message, which is worse
+// than being upfront about the limitation. So this fallback keeps the full
+// original text intact (nothing is dropped) and only adds a GFK-style frame
+// around it; it does NOT claim to have removed accusatory phrasing. Real
+// rewriting happens below via GPT-4o-mini once OPENAI_API_KEY is set.
 function buildDemoTranslation(originalMessage: string) {
   const trimmed = originalMessage.trim();
-  const clauses = trimmed.split(/(?<=[.!?])\s+/).filter(Boolean);
-  const observation = (clauses[0] || trimmed).replace(/[.!?]+$/, '');
 
   const feelingPatterns: [RegExp, string][] = [
     [/genervt|nervst|nervt/i, 'genervt'],
@@ -27,18 +30,20 @@ function buildDemoTranslation(originalMessage: string) {
     feelingPatterns.find(([pattern]) => pattern.test(trimmed))?.[1] || 'frustriert';
 
   const weilMatch = trimmed.match(/weil\s+(.+?)([.!?]|$)/i);
-  const reason = weilMatch ? weilMatch[1].trim() : 'mir das wichtig ist';
+  const reasonClause = weilMatch ? ` weil ${weilMatch[1].trim()}.` : '';
 
   return {
     translatedMessage:
-      `Wenn ich das erlebe: "${observation}" – fühle ich mich ${feeling}, weil ${reason}. ` +
+      `Das beschäftigt dich gerade: "${trimmed}"\n\n` +
+      `Dabei fühlst du dich vermutlich ${feeling}.${reasonClause} ` +
       'Ich würde mir wünschen, dass wir gemeinsam eine Lösung finden, mit der wir beide gut leben können. ' +
       'Können wir darüber sprechen?',
     insights:
-      'Demo-Modus (kein OPENAI_API_KEY hinterlegt): Diese Umformulierung übernimmt deine eigene ' +
-      'Beobachtung und ein passendes Gefühlswort aus deinem Text, ist aber nicht KI-generiert. ' +
-      'Für eine wirklich individuelle Analyse OPENAI_API_KEY setzen (siehe .env.example) – dann ' +
-      'übernimmt GPT-4o-mini die Umformulierung.',
+      'Demo-Modus (kein OPENAI_API_KEY hinterlegt): Ohne echtes Sprachmodell kann dieser Fallback ' +
+      'Vorwürfe/Du-Botschaften nicht zuverlässig entfernen, ohne dabei Inhalt zu verlieren – deshalb ' +
+      'zeigt er deinen Text unverändert an, statt ihn zu verfälschen oder zu kürzen. Für eine echte, ' +
+      'inhaltlich vollständige Umformulierung ohne Vorwürfe OPENAI_API_KEY setzen (siehe .env.example) ' +
+      '– dann übernimmt GPT-4o-mini die Umformulierung.',
   };
 }
 
@@ -79,13 +84,21 @@ export async function POST(request: NextRequest) {
               'Du bist ein erfahrener Beziehungsmediator und Experte für Gewaltfreie Kommunikation (GFK). ' +
               'Der Nutzer gibt dir eine ungefilterte, emotional aufgeladene Frust-Nachricht. ' +
               'Deine Aufgabe: Wandle diese nach den Prinzipien der GFK in eine ruhige, konstruktive Ich-Botschaft um. ' +
-              'Zeige echtes Mitgefühl, entferne Vorwürfe und formuliere konkrete Bitten. ' +
+              'Zwei Anforderungen sind nicht verhandelbar: ' +
+              '(1) KEINE Du-Botschaften oder Vorwürfe – jede Formulierung, die die andere Person direkt ' +
+              'anspricht, beschuldigt oder bewertet ("du bist...", "du machst nie...", "du nervst"), muss ' +
+              'zu einer Ich-Aussage über die eigene Beobachtung/das eigene Gefühl umgebaut werden. ' +
+              '(2) Verliere dabei KEINE inhaltliche Information aus der Originalnachricht – jedes konkrete ' +
+              'Thema, jede genannte Situation und jeder Streitpunkt muss in der Umformulierung wiederzufinden ' +
+              'sein, auch wenn die Nachricht mehrere Punkte enthält. Fasse nicht auf einen einzigen Satz zusammen. ' +
+              'Zeige echtes Mitgefühl und formuliere am Ende eine konkrete Bitte. ' +
               'Antworte IMMER auf Schweizer Hochdeutsch (ss statt ß). ' +
               'Gib deine Antwort in diesem JSON-Format zurück: ' +
               '{"translatedMessage": "...", "insights": "..."} ' +
-              'Nutze im translatedMessage das GFK-Muster: ' +
-              '"Ich habe Schwierigkeiten mit [Beobachtung]. Ich fühle mich [Gefühl], weil [Grund]. ' +
-              'Ich würde mir [konkrete Bitte] wünschen."',
+              'Struktur für translatedMessage (bei mehreren Themen: pro Thema eine eigene Beobachtung/Gefühl, ' +
+              'dann eine gemeinsame Bitte am Schluss): ' +
+              '"Ich habe Schwierigkeiten mit [Beobachtung 1]. Ich fühle mich [Gefühl], weil [Grund]. ' +
+              '[Beobachtung 2, falls vorhanden]... Ich würde mir [konkrete Bitte] wünschen."',
           },
           {
             role: 'user',
