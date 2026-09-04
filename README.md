@@ -17,7 +17,7 @@ Ein modernes Progressive Web App für Paare. Eine vollständige Lösung für Kom
 - **Autonomie-Alert**: Warnung wenn ein Partner 7 Tage keine Me-Time hat
 - **Miniaturkalender**: Monatsübersicht mit Event-Punkten
 
-### 3. **Kommunikations-Wingman** (Vent & Translate)
+### 3. **Rephrase** (Vent & Translate)
 - **Private Scratch-Pad**: Sicherer Raum für ungefilterte Frustration
 - **GFK-Konvertierung**: KI-gestützte Umwandlung zu konstruktiven Ich-Botschaften
 - **Kopieren/Teilen**: One-Click Kopieren oder direkt versenden
@@ -197,7 +197,7 @@ relos-pwa/
 │   │   ├── BottomNav.tsx      # Mobile Navigation
 │   │   ├── Dashboard.tsx      # Energy & Tasks
 │   │   ├── Calendar.tsx       # Events & Autonomy
-│   │   ├── Wingman.tsx        # NVC Translator
+│   │   ├── Rephrase.tsx        # NVC Translator
 │   │   └── Connection.tsx     # Date Ideas & Bucket List
 │   └── lib/
 │       ├── types.ts           # Type definitions

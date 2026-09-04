@@ -14,6 +14,7 @@ export const Calendar = () => {
     title: '',
     type: EventType.PaarZeit,
     date: new Date().toISOString().split('T')[0],
+    time: '18:00',
   });
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -29,7 +30,7 @@ export const Calendar = () => {
       createdBy: currentUser?.id || '',
       title: newEvent.title,
       type: newEvent.type,
-      startDate: new Date(newEvent.date).toISOString(),
+      startDate: new Date(`${newEvent.date}T${newEvent.time}`).toISOString(),
       description: '',
     });
 
@@ -38,6 +39,7 @@ export const Calendar = () => {
       title: '',
       type: EventType.PaarZeit,
       date: new Date().toISOString().split('T')[0],
+      time: '18:00',
     });
     setShowAddEvent(false);
   };
@@ -162,12 +164,20 @@ export const Calendar = () => {
               <option value={EventType.Verpflichtung}>Verpflichtung</option>
             </select>
 
-            <input
-              type="date"
-              value={newEvent.date}
-              onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-              className="input-base"
-            />
+            <div className="flex gap-2">
+              <input
+                type="date"
+                value={newEvent.date}
+                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                className="input-base flex-1"
+              />
+              <input
+                type="time"
+                value={newEvent.time}
+                onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
+                className="input-base flex-1"
+              />
+            </div>
 
             <div className="flex gap-2">
               <button onClick={handleAddEvent} className="btn-primary flex-1">
@@ -276,9 +286,16 @@ export const Calendar = () => {
                     <p className="text-xs mt-1">
                       {new Date(event.startDate).toLocaleDateString('de-CH', {
                         weekday: 'short',
-                        month: 'short',
                         day: 'numeric',
-                      })}
+                        month: 'short',
+                        year: 'numeric',
+                      })}{' '}
+                      ·{' '}
+                      {new Date(event.startDate).toLocaleTimeString('de-CH', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}{' '}
+                      Uhr
                     </p>
                     <span className="inline-block text-xs px-2 py-0.5 rounded mt-2 bg-white/50">
                       {eventTypeConfig[event.type].label}

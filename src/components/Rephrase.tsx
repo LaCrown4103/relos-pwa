@@ -10,7 +10,7 @@ interface TranslationState {
   insights: string;
 }
 
-export const Wingman = () => {
+export const Rephrase = () => {
   const { coupleId } = useCouple();
   const [frustration, setFrustration] = useState('');
   const [translation, setTranslation] = useState<TranslationState | null>(null);
@@ -55,7 +55,7 @@ export const Wingman = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-bold text-gray-900">Kommunikations-Wingman</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Rephrase</h1>
         <p className="text-gray-600 text-sm mt-1">
           Frust in konstruktive Botschaften umwandeln
         </p>
@@ -67,7 +67,7 @@ export const Wingman = () => {
           <p className="text-sm font-medium text-gray-900">Wie es funktioniert:</p>
           <ol className="text-xs text-gray-600 space-y-1 list-decimal list-inside">
             <li>Schreiben Sie ungefiltert auf, was Sie frustriert</li>
-            <li>Unser Wingman wandelt es in GFK-Sprache um</li>
+            <li>Rephrase wandelt es in GFK-Sprache um</li>
             <li>Kopieren Sie die Nachricht oder senden Sie sie direkt</li>
           </ol>
         </div>

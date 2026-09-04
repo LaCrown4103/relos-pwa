@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { BottomNav } from '@/components/BottomNav';
 import { Dashboard } from '@/components/Dashboard';
 import { Calendar } from '@/components/Calendar';
-import { Wingman } from '@/components/Wingman';
+import { Rephrase } from '@/components/Rephrase';
 import { Connection } from '@/components/Connection';
 import { useCouple } from '@/lib/CoupleContext';
 
@@ -36,7 +36,7 @@ export default function Home() {
     <main className="max-w-md mx-auto bg-white min-h-screen relative">
       {activeTab === 'dashboard' && <Dashboard />}
       {activeTab === 'calendar' && <Calendar />}
-      {activeTab === 'wingman' && <Wingman />}
+      {activeTab === 'rephrase' && <Rephrase />}
       {activeTab === 'connection' && <Connection />}
 
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

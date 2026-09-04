@@ -85,7 +85,7 @@ docker-compose up
 - Verschiedene Event-Typen ausprobieren (Paar-Zeit, Me-Time, Verpflichtung)
 - Miniatur-Kalender erkunden
 
-**3️⃣ Wingman (Vent & Translate)**
+**3️⃣ Rephrase (Vent & Translate)**
 - Ungefilterte Frustration schreiben
 - "In konstruktive Ich-Botschaft umwandeln" klicken
 - AI-generierte Nachricht kopieren
@@ -167,7 +167,7 @@ NEXT_PUBLIC_DEMO_MODE=false
 
 ### AI Features testen
 
-**Wingman Screen:**
+**Rephrase Screen:**
 - Schreiben: "Das macht mich so wütend, du höchst mir ja gar nicht zu!"
 - Button klicken
 - AI konvertiert zu gewaltfreier Kommunikation

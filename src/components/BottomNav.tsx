@@ -11,7 +11,7 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'calendar', label: 'Kalender', icon: Calendar },
-    { id: 'wingman', label: 'Wingman', icon: MessageCircle },
+    { id: 'rephrase', label: 'Rephrase', icon: MessageCircle },
     { id: 'connection', label: 'Verbindung', icon: Heart },
   ];
 
