@@ -240,7 +240,7 @@ export const Calendar = () => {
               return (
                 <div
                   key={idx}
-                  className={`aspect-square rounded border p-1 relative ${
+                  className={`aspect-square rounded-lg border p-1 relative ${
                     day
                       ? 'bg-white border-gray-200 hover:border-couple-primary'
                       : 'bg-gray-50 border-transparent'

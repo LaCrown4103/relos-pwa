@@ -10,36 +10,69 @@
 
 html {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #f9f5f0;
+  background: #f2f2f7;
 }
 
 body {
-  background: #f9f5f0;
-  color: #1f2937;
+  background: #f2f2f7;
+  color: #1c1c1e;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typography: tighten large text as it grows, leave body copy near 0 tracking */
+h1 {
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+h2,
+h3 {
+  letter-spacing: -0.015em;
+}
+
 /* PWA styles */
 main {
-  padding-bottom: 80px;
+  padding-bottom: 88px;
 }
 
 .nav-safe-area {
   padding-bottom: max(env(safe-area-inset-bottom), 20px);
 }
 
-/* Smooth transitions */
+/* Response: feedback lives on the press, and it's instant. Color/shadow can ease
+   normally, but the press transform must never lag behind the finger. */
 button,
 input,
 textarea,
 select {
-  transition: all 0.2s ease-in-out;
+  transition: background-color 200ms ease, border-color 200ms ease,
+    box-shadow 200ms ease, color 200ms ease;
+}
+
+button {
+  transition: transform 100ms ease-out, background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
+  transition-duration: 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:active {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Animations */
@@ -53,37 +86,43 @@ button:active {
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Card styles */
+/* Card styles — larger "continuous corner" radius, soft diffused elevation */
 .card {
-  @apply bg-white rounded-lg shadow-sm border border-gray-100;
+  @apply bg-white rounded-2xl border border-gray-100;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .card-hover {
-  @apply hover:shadow-md hover:border-couple-primary/20 transition-all;
+  @apply transition-shadow;
+}
+
+.card-hover:hover {
+  border-color: rgba(233, 75, 125, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 /* Input styles */
 .input-base {
-  @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-couple-primary focus:outline-none focus:ring-2 focus:ring-couple-primary/10 transition-all;
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-couple-primary focus:outline-none focus:ring-4 focus:ring-couple-primary/10;
 }
 
 /* Button styles */
 .btn-primary {
-  @apply bg-couple-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-couple-dark active:scale-95 transition-all;
+  @apply bg-couple-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-couple-dark;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all;
+  @apply bg-black/5 text-gray-900 px-6 py-3 rounded-xl font-medium hover:bg-black/10;
 }
 
 .btn-ghost {
-  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-lg transition-all;
+  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-xl;
 }
 
-/* Slider styles */
+/* Slider styles — the thumb grows slightly under the finger, like a grabbed control */
 input[type='range'] {
   width: 100%;
   height: 8px;
@@ -109,6 +148,11 @@ input[type='range']::-webkit-slider-thumb {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   border: 3px solid #e94b7d;
+  transition: transform 100ms ease-out;
+}
+
+input[type='range']:active::-webkit-slider-thumb {
+  transform: scale(1.15);
 }
 
 input[type='range']::-moz-range-thumb {
@@ -119,6 +163,11 @@ input[type='range']::-moz-range-thumb {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   border: 3px solid #e94b7d;
+  transition: transform 100ms ease-out;
+}
+
+input[type='range']:active::-moz-range-thumb {
+  transform: scale(1.15);
 }
 
 /* Responsive */
