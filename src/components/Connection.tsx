@@ -116,7 +116,7 @@ export const Connection = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-bold text-gray-900">Verbindung & Inspiration</h1>
+        <h1 className="text-3xl font-semibold text-gray-900">Verbindung & Inspiration</h1>
         <p className="text-gray-600 text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
       </div>
 

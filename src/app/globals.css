@@ -9,7 +9,7 @@
 }
 
 html {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   background: #f2f2f7;
 }
 
@@ -17,6 +17,7 @@ body {
   background: #f2f2f7;
   color: #1c1c1e;
   line-height: 1.5;
+  font-feature-settings: 'cv11', 'ss01';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -109,17 +110,17 @@ button:active {
   @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-couple-primary focus:outline-none focus:ring-4 focus:ring-couple-primary/10;
 }
 
-/* Button styles */
+/* Button styles — full pill radius, matching iOS's rounded call-to-action shape */
 .btn-primary {
-  @apply bg-couple-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-couple-dark;
+  @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-dark;
 }
 
 .btn-secondary {
-  @apply bg-black/5 text-gray-900 px-6 py-3 rounded-xl font-medium hover:bg-black/10;
+  @apply bg-black/5 text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-black/10;
 }
 
 .btn-ghost {
-  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-xl;
+  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-full;
 }
 
 /* Slider styles — the thumb grows slightly under the finger, like a grabbed control */

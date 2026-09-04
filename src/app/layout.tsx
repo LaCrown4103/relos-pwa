@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { CoupleProvider } from '@/lib/CoupleContext';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'RelOS - Relationship Operating System',
@@ -34,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
+    <html lang="de" className={inter.variable}>
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#e94b7d" />

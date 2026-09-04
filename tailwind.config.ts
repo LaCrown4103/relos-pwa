@@ -18,7 +18,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', '-apple-system', 'sans-serif'],
       },
     },
   },

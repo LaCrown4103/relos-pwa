@@ -110,7 +110,7 @@ export const Calendar = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-bold text-gray-900">Kalender</h1>
+        <h1 className="text-3xl font-semibold text-gray-900">Kalender</h1>
         <p className="text-gray-600 text-sm mt-1">Planen & Verbindung</p>
       </div>
 
@@ -297,7 +297,7 @@ export const Calendar = () => {
                       })}{' '}
                       Uhr
                     </p>
-                    <span className="inline-block text-xs px-2 py-0.5 rounded mt-2 bg-white/50">
+                    <span className="inline-block text-xs px-2 py-0.5 rounded-full mt-2 bg-white/50">
                       {eventTypeConfig[event.type].label}
                     </span>
                   </div>

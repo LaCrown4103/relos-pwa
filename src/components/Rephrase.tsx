@@ -55,7 +55,7 @@ export const Rephrase = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-bold text-gray-900">Rephrase</h1>
+        <h1 className="text-3xl font-semibold text-gray-900">Rephrase</h1>
         <p className="text-gray-600 text-sm mt-1">
           Frust in konstruktive Botschaften umwandeln
         </p>
@@ -91,7 +91,7 @@ export const Rephrase = () => {
         <button
           onClick={handleTranslate}
           disabled={loading || !frustration.trim()}
-          className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
+          className={`w-full py-3 rounded-full font-medium flex items-center justify-center gap-2 transition-all ${
             loading || !frustration.trim()
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
               : 'btn-primary'
