@@ -46,6 +46,13 @@ export enum EventType {
   Verpflichtung = 'verpflichtung',
 }
 
+export interface CalendarEventEdit {
+  userId: string;
+  userName: string;
+  changedAt: string; // ISO 8601
+  summary: string; // e.g. "Titel: 'Yoga' -> 'Yoga-Kurs'"
+}
+
 export interface CalendarEvent {
   id: string;
   coupleId: string;
@@ -56,6 +63,7 @@ export interface CalendarEvent {
   endDate?: string;
   description?: string;
   createdAt: string;
+  history?: CalendarEventEdit[]; // append-only edit trail
 }
 
 // AI Communication & Connection

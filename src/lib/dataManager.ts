@@ -3,6 +3,7 @@ import {
   DailyStatus,
   SharedTask,
   CalendarEvent,
+  CalendarEventEdit,
   BucketListItem,
   EventType,
 } from './types';
@@ -265,7 +266,66 @@ export const addCalendarEvent = (
     coupleId,
     id: 'event_' + Date.now(),
     createdAt: new Date().toISOString(),
+    history: [],
   });
+  saveData(data);
+};
+
+// Updating a calendar event records who changed what and when. Entries are
+// only ever appended, never edited or removed, so the trail can't be faked.
+export const updateCalendarEvent = (
+  eventId: string,
+  updates: Partial<Pick<CalendarEvent, 'title' | 'type' | 'startDate' | 'description'>>,
+  editor: { id: string; name: string }
+) => {
+  const data = loadData();
+  const event = data.calendarEvents.find((e) => e.id === eventId);
+  if (!event) return;
+
+  const fieldLabels: Record<string, string> = {
+    title: 'Titel',
+    type: 'Kategorie',
+    startDate: 'Datum/Zeit',
+    description: 'Beschreibung',
+  };
+
+  const changeSummaries: string[] = [];
+  (Object.keys(updates) as Array<keyof typeof updates>).forEach((field) => {
+    const newValue = updates[field];
+    const oldValue = event[field];
+    if (newValue === undefined) return;
+
+    // The edit form only offers minute precision, while a startDate created
+    // via `new Date().toISOString()` carries seconds/milliseconds — comparing
+    // the raw strings would flag "changed" on every save even when the user
+    // only touched the title. Compare at minute resolution instead.
+    if (field === 'startDate') {
+      const oldMinute = Math.floor(new Date(oldValue as string).getTime() / 60000);
+      const newMinute = Math.floor(new Date(newValue as string).getTime() / 60000);
+      if (oldMinute !== newMinute) {
+        changeSummaries.push(`${fieldLabels[field]} geändert`);
+      }
+      return;
+    }
+
+    if (newValue !== oldValue) {
+      changeSummaries.push(`${fieldLabels[field] || field} geändert`);
+    }
+  });
+
+  if (changeSummaries.length === 0) return;
+
+  Object.assign(event, updates);
+
+  const historyEntry: CalendarEventEdit = {
+    userId: editor.id,
+    userName: editor.name,
+    changedAt: new Date().toISOString(),
+    summary: changeSummaries.join(', '),
+  };
+
+  event.history = [...(event.history || []), historyEntry];
+
   saveData(data);
 };
 
