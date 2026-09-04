@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f9f5f0;
+}
+
+body {
+  background: #f9f5f0;
+  color: #1f2937;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* PWA styles */
+main {
+  padding-bottom: 80px;
+}
+
+.nav-safe-area {
+  padding-bottom: max(env(safe-area-inset-bottom), 20px);
+}
+
+/* Smooth transitions */
+button,
+input,
+textarea,
+select {
+  transition: all 0.2s ease-in-out;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-100;
+}
+
+.card-hover {
+  @apply hover:shadow-md hover:border-couple-primary/20 transition-all;
+}
+
+/* Input styles */
+.input-base {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-couple-primary focus:outline-none focus:ring-2 focus:ring-couple-primary/10 transition-all;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-couple-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-couple-dark active:scale-95 transition-all;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all;
+}
+
+.btn-ghost {
+  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-lg transition-all;
+}
+
+/* Slider styles */
+input[type='range'] {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background: linear-gradient(
+    to right,
+    #e94b7d 0%,
+    #f59e0b 50%,
+    #10b981 100%
+  );
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #e94b7d;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #e94b7d;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body {
+    font-size: 16px; /* Prevent zoom on input focus on iOS */
+  }
+
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
