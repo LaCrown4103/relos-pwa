@@ -1,5 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Demo-mode fallback used when no OPENAI_API_KEY is configured (e.g. this
+// preview deployment). It can't understand the message the way an LLM can,
+// but it must never show unfilled template placeholders — so it pulls the
+// actual observation/feeling/reason out of what the user wrote instead of
+// leaving generic bracket tokens like "[Emotion]" in the output.
+function buildDemoTranslation(originalMessage: string) {
+  const trimmed = originalMessage.trim();
+  const clauses = trimmed.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const observation = (clauses[0] || trimmed).replace(/[.!?]+$/, '');
+
+  const feelingPatterns: [RegExp, string][] = [
+    [/genervt|nervst|nervt/i, 'genervt'],
+    [/stör/i, 'gestört'],
+    [/wütend|sauer/i, 'wütend'],
+    [/frustr/i, 'frustriert'],
+    [/ersch[öo]pft|müde|kaputt/i, 'erschöpft'],
+    [/allein gelassen|einsam/i, 'allein gelassen'],
+    [/übersehen|ignoriert/i, 'übersehen'],
+    [/entt[äa]uscht/i, 'enttäuscht'],
+    [/überfordert/i, 'überfordert'],
+    [/traurig/i, 'traurig'],
+    [/verletzt/i, 'verletzt'],
+  ];
+  const feeling =
+    feelingPatterns.find(([pattern]) => pattern.test(trimmed))?.[1] || 'frustriert';
+
+  const weilMatch = trimmed.match(/weil\s+(.+?)([.!?]|$)/i);
+  const reason = weilMatch ? weilMatch[1].trim() : 'mir das wichtig ist';
+
+  return {
+    translatedMessage:
+      `Wenn ich das erlebe: "${observation}" – fühle ich mich ${feeling}, weil ${reason}. ` +
+      'Ich würde mir wünschen, dass wir gemeinsam eine Lösung finden, mit der wir beide gut leben können. ' +
+      'Können wir darüber sprechen?',
+    insights:
+      'Demo-Modus (kein OPENAI_API_KEY hinterlegt): Diese Umformulierung übernimmt deine eigene ' +
+      'Beobachtung und ein passendes Gefühlswort aus deinem Text, ist aber nicht KI-generiert. ' +
+      'Für eine wirklich individuelle Analyse OPENAI_API_KEY setzen (siehe .env.example) – dann ' +
+      'übernimmt GPT-4o-mini die Umformulierung.',
+  };
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { originalMessage } = await request.json();
@@ -18,12 +60,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey || demoMode) {
       return NextResponse.json({
         originalMessage,
-        translatedMessage:
-          'Ich habe Schwierigkeiten mit [konkrete Situation]. Ich fühle mich [Emotion], weil [Grund wichtig]. ' +
-          'Ich würde mir [konkrete Bitte] wünschen. Können wir gemeinsam darüber sprechen?',
-        insights:
-          'Diese Umformulierung nutzt die Prinzipien der Gewaltfreien Kommunikation. Sie benennt ' +
-          'die Beobachtung, das Gefühl, den Grund und die konkrete Bitte.',
+        ...buildDemoTranslation(originalMessage),
       });
     }
 
