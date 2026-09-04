@@ -133,19 +133,19 @@ export const Connection = () => {
         <p className="text-gray-600 text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
       </div>
 
-      {/* Daily Question */}
+      {/* Daily Question — black feature card with a serif quote, editorial style */}
       <div className="px-4">
-        <div className="card p-4 bg-gradient-to-br from-couple-light to-white space-y-3 border-2 border-couple-primary">
+        <div className="card p-5 bg-black border-black space-y-3">
           <div className="flex items-center gap-2 mb-2">
-            <Lightbulb className="text-couple-primary" size={20} />
-            <p className="font-semibold text-sm text-couple-primary">
+            <Lightbulb className="text-white" size={20} />
+            <p className="font-semibold text-sm text-gray-400 uppercase tracking-wide">
               Heutige Gesprächsfrage
             </p>
           </div>
-          <p className="text-sm text-gray-900 leading-relaxed font-medium">
+          <p className="font-serif italic text-xl text-white leading-snug">
             &ldquo;{dailyQuestion}&rdquo;
           </p>
-          <p className="text-xs text-gray-600 italic">
+          <p className="text-xs text-gray-400">
             Nehmen Sie sich Zeit für ein echtes Gespräch heute...
           </p>
         </div>

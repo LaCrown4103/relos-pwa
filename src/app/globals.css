@@ -10,12 +10,12 @@
 
 html {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  background: #f2f2f7;
+  background: #ffffff;
 }
 
 body {
-  background: #f2f2f7;
-  color: #1c1c1e;
+  background: #ffffff;
+  color: #000000;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -89,37 +89,45 @@ button:active {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Card styles — elevation only, no border (a border + shadow + white fill is
-   the generic default; shadow alone reads as a distinct, floating surface) */
-.card {
-  @apply bg-white rounded-2xl;
-  box-shadow: 0 1px 2px rgba(30, 30, 60, 0.04), 0 8px 24px rgba(30, 30, 60, 0.06);
-}
+/* Component classes live in Tailwind's "components" layer so that any
+   utility class (bg-black, border-couple-primary, ...) applied alongside
+   them in a className string always wins in the cascade, regardless of
+   source order. Without @layer, these plain rules land physically after
+   @tailwind utilities in the compiled CSS and silently override utilities
+   like bg-black with bg-white — which is exactly what happened here. */
+@layer components {
+  /* Card styles — flat black-and-white style: a crisp hairline border reads
+     better on a pure white page than a soft shadow with nothing to contrast
+     against, and matches the graphic, high-contrast reference look. */
+  .card {
+    @apply bg-white rounded-2xl border border-black/10;
+  }
 
-.card-hover {
-  @apply transition-shadow;
-}
+  .card-hover {
+    @apply transition-colors;
+  }
 
-.card-hover:hover {
-  box-shadow: 0 2px 6px rgba(30, 30, 60, 0.07), 0 14px 36px rgba(30, 30, 60, 0.1);
-}
+  .card-hover:hover {
+    @apply border-black/30;
+  }
 
-/* Input styles */
-.input-base {
-  @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-couple-primary focus:outline-none focus:ring-4 focus:ring-couple-primary/10;
-}
+  /* Input styles */
+  .input-base {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-couple-primary focus:outline-none focus:ring-4 focus:ring-couple-primary/10;
+  }
 
-/* Button styles — full pill radius, matching iOS's rounded call-to-action shape */
-.btn-primary {
-  @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-dark;
-}
+  /* Button styles — full pill radius, matching iOS's rounded call-to-action shape */
+  .btn-primary {
+    @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-dark;
+  }
 
-.btn-secondary {
-  @apply bg-black/5 text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-black/10;
-}
+  .btn-secondary {
+    @apply bg-black/5 text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-black/10;
+  }
 
-.btn-ghost {
-  @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-full;
+  .btn-ghost {
+    @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-full;
+  }
 }
 
 /* Slider styles — the thumb grows slightly under the finger, like a grabbed control */
@@ -129,9 +137,9 @@ input[type='range'] {
   border-radius: 8px;
   background: linear-gradient(
     to right,
-    #e94b7d 0%,
-    #f59e0b 50%,
-    #10b981 100%
+    #000000 0%,
+    #737373 50%,
+    #d4d4d4 100%
   );
   outline: none;
   -webkit-appearance: none;
@@ -147,7 +155,7 @@ input[type='range']::-webkit-slider-thumb {
   background: white;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid #e94b7d;
+  border: 3px solid #000000;
   transition: transform 100ms ease-out;
 }
 
@@ -162,7 +170,7 @@ input[type='range']::-moz-range-thumb {
   background: white;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid #e94b7d;
+  border: 3px solid #000000;
   transition: transform 100ms ease-out;
 }
 

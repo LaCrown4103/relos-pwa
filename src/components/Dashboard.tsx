@@ -81,9 +81,9 @@ export const Dashboard = () => {
   };
 
   const getEnergyColor = (level: number) => {
-    if (level >= 8) return 'text-green-500';
-    if (level >= 5) return 'text-yellow-500';
-    return 'text-red-500';
+    if (level >= 8) return 'text-black';
+    if (level >= 5) return 'text-gray-500';
+    return 'text-gray-300';
   };
 
   const categoryLabels: Record<string, string> = {

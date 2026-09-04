@@ -121,20 +121,20 @@ export const Rephrase = () => {
             </p>
           </div>
 
-          {/* Translated */}
-          <div className="card p-4 space-y-3 border-l-4 border-couple-primary bg-couple-light/30">
-            <p className="text-xs font-semibold text-gray-600 uppercase flex items-center gap-1.5">
+          {/* Translated — the hero result, styled as a black feature card */}
+          <div className="card p-4 space-y-3 bg-black border-black">
+            <p className="text-xs font-semibold text-gray-400 uppercase flex items-center gap-1.5">
               <Leaf size={14} />
               Gewaltfrei kommuniziert
             </p>
-            <p className="text-sm text-gray-900 leading-relaxed font-medium">
+            <p className="text-sm text-white leading-relaxed font-medium">
               {translation.translated}
             </p>
 
             <div className="flex gap-2 pt-2">
               <button
                 onClick={handleCopy}
-                className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm"
+                className="flex-1 flex items-center justify-center gap-2 text-sm bg-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/20"
               >
                 <Copy size={18} />
                 {copied ? 'Kopiert!' : 'Kopieren'}
@@ -144,7 +144,7 @@ export const Rephrase = () => {
                   navigator.clipboard.writeText(translation.translated);
                   alert('Bereit zum Versenden!');
                 }}
-                className="btn-primary flex-1 flex items-center justify-center gap-2 text-sm"
+                className="flex-1 flex items-center justify-center gap-2 text-sm bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200"
               >
                 <Send size={18} />
                 Senden
@@ -153,12 +153,12 @@ export const Rephrase = () => {
           </div>
 
           {/* Insights */}
-          <div className="card p-4 space-y-2 bg-blue-50 border-blue-100">
-            <p className="text-xs font-semibold text-blue-900 uppercase flex items-center gap-1.5">
+          <div className="card p-4 space-y-2 bg-gray-50 border-gray-200">
+            <p className="text-xs font-semibold text-gray-900 uppercase flex items-center gap-1.5">
               <Lightbulb size={14} />
               Warum diese Umwandlung?
             </p>
-            <p className="text-xs text-blue-800 leading-relaxed">
+            <p className="text-xs text-gray-600 leading-relaxed">
               {translation.insights}
             </p>
           </div>

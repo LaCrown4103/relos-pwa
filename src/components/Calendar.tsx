@@ -99,18 +99,18 @@ export const Calendar = () => {
   const eventTypeConfig = {
     [EventType.PaarZeit]: {
       label: 'Paar-Zeit',
-      color: 'bg-red-100 text-red-800 border-red-300',
-      dotColor: 'bg-red-500',
+      color: 'bg-black text-white border-black',
+      dotColor: 'bg-black',
     },
     [EventType.MeTime]: {
       label: 'Me-Time',
-      color: 'bg-blue-100 text-blue-800 border-blue-300',
-      dotColor: 'bg-blue-500',
+      color: 'bg-gray-200 text-gray-900 border-gray-400',
+      dotColor: 'bg-gray-500',
     },
     [EventType.Verpflichtung]: {
       label: 'Verpflichtung',
-      color: 'bg-gray-100 text-gray-800 border-gray-300',
-      dotColor: 'bg-gray-500',
+      color: 'bg-white text-gray-700 border-gray-300',
+      dotColor: 'bg-gray-300',
     },
   };
 
@@ -169,13 +169,13 @@ export const Calendar = () => {
       {/* Me-Time Warning */}
       {userHasNoMeTime && (
         <div className="px-4">
-          <div className="card bg-yellow-50 border-yellow-200 p-4 flex gap-3">
-            <AlertCircle className="text-yellow-600 flex-shrink-0" size={20} />
+          <div className="card bg-black text-white border-black p-4 flex gap-3">
+            <AlertCircle className="text-white flex-shrink-0" size={20} />
             <div className="flex-1">
-              <p className="text-sm font-semibold text-yellow-900">
+              <p className="text-sm font-semibold text-white">
                 Me-Time-Erinnerung
               </p>
-              <p className="text-xs text-yellow-800 mt-1">
+              <p className="text-xs text-gray-300 mt-1">
                 Planen Sie Me-Time in den nächsten 7 Tagen!
               </p>
             </div>
