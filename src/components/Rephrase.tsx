@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useCouple } from '@/lib/CoupleContext';
-import { Copy, Send, Loader } from 'lucide-react';
+import { Copy, Send, Loader, Leaf, Lightbulb } from 'lucide-react';
 
 interface TranslationState {
   original: string;
@@ -123,8 +123,9 @@ export const Rephrase = () => {
 
           {/* Translated */}
           <div className="card p-4 space-y-3 border-l-4 border-couple-primary bg-couple-light/30">
-            <p className="text-xs font-semibold text-gray-600 uppercase">
-              🌿 Gewaltfrei kommuniziert
+            <p className="text-xs font-semibold text-gray-600 uppercase flex items-center gap-1.5">
+              <Leaf size={14} />
+              Gewaltfrei kommuniziert
             </p>
             <p className="text-sm text-gray-900 leading-relaxed font-medium">
               {translation.translated}
@@ -153,8 +154,9 @@ export const Rephrase = () => {
 
           {/* Insights */}
           <div className="card p-4 space-y-2 bg-blue-50 border-blue-100">
-            <p className="text-xs font-semibold text-blue-900 uppercase">
-              💡 Warum diese Umwandlung?
+            <p className="text-xs font-semibold text-blue-900 uppercase flex items-center gap-1.5">
+              <Lightbulb size={14} />
+              Warum diese Umwandlung?
             </p>
             <p className="text-xs text-blue-800 leading-relaxed">
               {translation.insights}

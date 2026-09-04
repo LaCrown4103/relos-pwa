@@ -12,6 +12,13 @@ import {
   Plus,
   Loader,
   Lightbulb,
+  Plane,
+  Target,
+  Trophy,
+  Gift,
+  Wallet,
+  Gem,
+  Clock,
 } from 'lucide-react';
 
 const DAILY_QUESTIONS = [
@@ -94,10 +101,16 @@ export const Connection = () => {
     }
   };
 
-  const categoryEmojis = {
-    vacation: '✈️',
-    goal: '🎯',
-    milestone: '🏆',
+  const categoryIcons = {
+    vacation: Plane,
+    goal: Target,
+    milestone: Trophy,
+  };
+
+  const costIcons = {
+    gratis: Gift,
+    budget: Wallet,
+    luxus: Gem,
   };
 
   const categoryLabels = {
@@ -165,9 +178,9 @@ export const Connection = () => {
                 onChange={(e) => setBudget(e.target.value)}
                 className="input-base"
               >
-                <option value="gratis">Gratis 🤑</option>
-                <option value="budget">Budget 💰</option>
-                <option value="luxus">Luxus 🥂</option>
+                <option value="gratis">Gratis</option>
+                <option value="budget">Budget</option>
+                <option value="luxus">Luxus</option>
               </select>
             </label>
 
@@ -194,9 +207,9 @@ export const Connection = () => {
                 onChange={(e) => setEnergyLevel(e.target.value)}
                 className="input-base"
               >
-                <option value="low">Couch-Modus 🛋️</option>
-                <option value="medium">Gemütlich 😊</option>
-                <option value="high">Abenteuer 🚀</option>
+                <option value="low">Couch-Modus</option>
+                <option value="medium">Gemütlich</option>
+                <option value="high">Abenteuer</option>
               </select>
             </label>
 
@@ -250,15 +263,20 @@ export const Connection = () => {
                 </div>
 
                 <div className="flex gap-2 text-xs">
-                  <span className="bg-couple-secondary/10 text-couple-secondary px-2 py-1 rounded">
+                  <span className="bg-couple-secondary/10 text-couple-secondary px-2 py-1 rounded-full flex items-center gap-1">
+                    {(() => {
+                      const CostIcon = costIcons[idea.estimatedCost];
+                      return <CostIcon size={14} />;
+                    })()}
                     {idea.estimatedCost === 'gratis'
-                      ? '🤑 Gratis'
+                      ? 'Gratis'
                       : idea.estimatedCost === 'budget'
-                      ? '💰 Budget'
-                      : '🥂 Luxus'}
+                      ? 'Budget'
+                      : 'Luxus'}
                   </span>
-                  <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                    ⏱️ {idea.estimatedDuration}
+                  <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full flex items-center gap-1">
+                    <Clock size={14} />
+                    {idea.estimatedDuration}
                   </span>
                 </div>
 
@@ -307,9 +325,9 @@ export const Connection = () => {
               onChange={(e) => setNewItemCategory(e.target.value as 'vacation' | 'goal' | 'milestone')}
               className="input-base"
             >
-              <option value="vacation">✈️ Ferien</option>
-              <option value="goal">🎯 Ziel</option>
-              <option value="milestone">🏆 Meilenstein</option>
+              <option value="vacation">Ferien</option>
+              <option value="goal">Ziel</option>
+              <option value="milestone">Meilenstein</option>
             </select>
 
             <div className="flex gap-2">
@@ -326,10 +344,12 @@ export const Connection = () => {
           </div>
         )}
 
-        {Object.entries(bucketsByCategory).map(([category, items]) => (
+        {Object.entries(bucketsByCategory).map(([category, items]) => {
+          const CategoryIcon = categoryIcons[category as keyof typeof categoryIcons];
+          return (
           <div key={category} className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-700 px-2">
-              {categoryEmojis[category as keyof typeof categoryEmojis]}{' '}
+            <h3 className="text-sm font-semibold text-gray-700 px-2 flex items-center gap-1.5">
+              <CategoryIcon size={16} className="text-couple-primary" />
               {categoryLabels[category as keyof typeof categoryLabels]}
             </h3>
 
@@ -372,7 +392,8 @@ export const Connection = () => {
               ))
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
