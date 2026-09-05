@@ -73,10 +73,22 @@ export interface TranslationRequest {
   originalMessage: string;
 }
 
+export interface TranslationVariants {
+  short: string; // pragmatic, in-the-moment phrasing
+  deep: string; // names the underlying need, addresses the bigger picture
+}
+
 export interface TranslationResponse {
   originalMessage: string;
-  translatedMessage: string;
-  insights: string;
+  // Set when the message was blocked before reaching the model (extreme
+  // profanity/threats) or the model itself refused (manipulation/emotional
+  // blackmail it judged unsafe to neutrally reformulate). When either is
+  // set, `variants` is omitted — there is nothing to copy/send.
+  blocked?: boolean;
+  refused?: boolean;
+  message?: string;
+  variants?: TranslationVariants;
+  insights?: string;
 }
 
 export interface DateIdea {
