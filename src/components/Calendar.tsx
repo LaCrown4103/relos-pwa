@@ -100,18 +100,18 @@ export const Calendar = () => {
   const eventTypeConfig = {
     [EventType.PaarZeit]: {
       label: 'Paar-Zeit',
-      color: 'bg-white text-couple-dark border-white',
-      dotColor: 'bg-white',
+      color: 'bg-couple-primary text-white border-couple-primary',
+      dotColor: 'bg-couple-primary',
     },
     [EventType.MeTime]: {
       label: 'Me-Time',
-      color: 'bg-couple-light text-couple-dark border-couple-light',
-      dotColor: 'bg-couple-light',
+      color: 'bg-couple-secondary text-couple-dark border-couple-secondary',
+      dotColor: 'bg-couple-secondary',
     },
     [EventType.Verpflichtung]: {
       label: 'Verpflichtung',
-      color: 'bg-gray-200 text-couple-dark border-gray-200',
-      dotColor: 'bg-gray-300',
+      color: 'bg-white text-couple-dark border-white',
+      dotColor: 'bg-white',
     },
   };
 
