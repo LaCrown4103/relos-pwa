@@ -5,11 +5,12 @@ import { useCouple } from '@/lib/CoupleContext';
 import {
   getDailyStatus,
   getSharedTasks,
+  addSharedTask,
   updateDailyStatus,
   updateSharedTask,
 } from '@/lib/dataManager';
 import { SharedTask } from '@/lib/types';
-import { CheckCircle2, Circle, Plus } from 'lucide-react';
+import { CheckCircle2, Circle, Plus, Clock } from 'lucide-react';
 import { SectionLabel } from './SectionLabel';
 
 export const Dashboard = () => {
@@ -19,6 +20,10 @@ export const Dashboard = () => {
   const [tasks, setTasks] = useState<SharedTask[]>([]);
   const [showAddTask, setShowAddTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [newTaskAssignee, setNewTaskAssignee] = useState<'partner_a' | 'partner_b' | 'both'>(
+    'both'
+  );
+  const [newTaskDueDate, setNewTaskDueDate] = useState('');
 
   useEffect(() => {
     const status = getDailyStatus(coupleId, new Date().toISOString().split('T')[0]);
@@ -58,21 +63,45 @@ export const Dashboard = () => {
   const handleAddTask = () => {
     if (!newTaskTitle.trim()) return;
 
-    // Mock add - in real app would use dataManager
-    const newTask: SharedTask = {
-      id: 'task_' + Date.now(),
-      coupleId,
+    addSharedTask(coupleId, {
       title: newTaskTitle,
       category: 'household',
-      assignedTo: 'both',
+      assignedTo: newTaskAssignee,
+      dueDate: newTaskDueDate || undefined,
       completed: false,
-      createdAt: new Date().toISOString(),
       mentalLoadTags: [],
-    };
+    });
 
-    setTasks([...tasks, newTask]);
+    setTasks(getSharedTasks(coupleId));
     setNewTaskTitle('');
+    setNewTaskAssignee('both');
+    setNewTaskDueDate('');
     setShowAddTask(false);
+  };
+
+  // Countdown label for a task's due date — a short, glanceable "how much
+  // time is left" instead of a raw date, so urgency is visible at a glance.
+  const getDueCountdown = (dueDate?: string): { label: string; color: string } | null => {
+    if (!dueDate) return null;
+
+    const due = new Date(`${dueDate}T00:00:00`);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) {
+      return {
+        label: `Überfällig seit ${Math.abs(diffDays)} Tag${Math.abs(diffDays) === 1 ? '' : 'en'}`,
+        color: 'text-red-400',
+      };
+    }
+    if (diffDays === 0) {
+      return { label: 'Heute fällig', color: 'text-couple-secondary' };
+    }
+    if (diffDays === 1) {
+      return { label: 'Noch 1 Tag', color: 'text-couple-secondary' };
+    }
+    return { label: `Noch ${diffDays} Tage`, color: 'text-gray-400' };
   };
 
   const tasksByCategory = {
@@ -194,6 +223,26 @@ export const Dashboard = () => {
               className="input-base"
               autoFocus
             />
+
+            <select
+              value={newTaskAssignee}
+              onChange={(e) =>
+                setNewTaskAssignee(e.target.value as 'partner_a' | 'partner_b' | 'both')
+              }
+              className="input-base"
+            >
+              <option value="both">Beide</option>
+              <option value="partner_a">{currentUser?.name || 'Partner A'}</option>
+              <option value="partner_b">{partner?.name || 'Partner B'}</option>
+            </select>
+
+            <input
+              type="date"
+              value={newTaskDueDate}
+              onChange={(e) => setNewTaskDueDate(e.target.value)}
+              className="input-base"
+            />
+
             <div className="flex gap-2">
               <button onClick={handleAddTask} className="btn-primary flex-1">
                 Hinzufügen
@@ -217,7 +266,9 @@ export const Dashboard = () => {
             {catTasks.length === 0 ? (
               <p className="text-sm text-gray-500 px-2">Keine Aufgaben</p>
             ) : (
-              catTasks.map((task) => (
+              catTasks.map((task) => {
+                const countdown = task.completed ? null : getDueCountdown(task.dueDate);
+                return (
                 <div
                   key={task.id}
                   className="card p-4 flex items-center gap-3 hover:bg-white/5 transition-colors"
@@ -242,16 +293,25 @@ export const Dashboard = () => {
                     >
                       {task.title}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {task.assignedTo === 'both'
-                        ? 'Beide'
-                        : task.assignedTo === 'partner_a'
-                        ? currentUser?.name
-                        : partner?.name}
-                    </p>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <p className="text-xs text-gray-400">
+                        {task.assignedTo === 'both'
+                          ? 'Beide'
+                          : task.assignedTo === 'partner_a'
+                          ? currentUser?.name
+                          : partner?.name}
+                      </p>
+                      {countdown && (
+                        <span className={`text-xs flex items-center gap-1 ${countdown.color}`}>
+                          <Clock size={12} />
+                          {countdown.label}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              ))
+                );
+              })
             )}
           </div>
         ))}
