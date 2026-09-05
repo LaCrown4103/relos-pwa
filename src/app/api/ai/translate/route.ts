@@ -50,15 +50,48 @@ oder (bei Ablehnung):
 {"refused": true, "message": "..."}`;
 
 // Demo-mode fallback used when no OPENAI_API_KEY is configured (e.g. this
-// preview deployment). Rewriting an arbitrary accusatory message into a
-// non-violent "I" statement WHILE preserving every piece of its actual
-// content is a language-understanding task — no regex/keyword system can
-// do that correctly for free-form text. This fallback keeps the full
-// original text intact (nothing is dropped) and only adds a GFK-style frame
-// around it; it does NOT claim to have removed accusatory phrasing. Real
-// rewriting happens below via GPT-4o-mini once OPENAI_API_KEY is set.
+// preview deployment). A full, faithful GFK rewrite of arbitrary free-form
+// text is a language-understanding task no regex/keyword system can do
+// properly — so this fallback does not attempt one. Instead it does the one
+// thing it CAN do reliably: drop sentences that are themselves direct
+// accusations/insults (see ACCUSATION_SENTENCE_PATTERNS below), and only
+// ever quote the neutral, factual sentences that remain. Real, fully
+// content-aware rewriting happens below via GPT-4o-mini once an API key is
+// configured.
+// Sentence-level patterns for direct accusations/insults ("Du bist kein
+// Mann", "wie eine Putzfrau", "nie/immer" generalizations). These must never
+// be quoted back in the "rephrased" output — that would just launder the
+// insult through a template — so sentences matching them are dropped before
+// building the observation, not just the words removed from the string.
+const ACCUSATION_SENTENCE_PATTERNS: RegExp[] = [
+  /du\s+bist\s+(kein|keine)/i,
+  /du\s+(kriegst|bekommst|schaffst)\b.*\bnicht(s)?\b.*\bhin\b/i,
+  /\b(immer|nie|niemals)\b/i,
+  /behandelst\s+mich\s+wie/i,
+  /wie\s+eine[nm]?\s+\w+/i,
+  /bist\s+du\s+(überhaupt|eigentlich)/i,
+  /du\s+bist\s+(so|total|völlig|einfach)/i,
+];
+
+function isAccusationSentence(sentence: string): boolean {
+  return ACCUSATION_SENTENCE_PATTERNS.some((pattern) => pattern.test(sentence));
+}
+
 function buildDemoTranslation(originalMessage: string) {
   const trimmed = originalMessage.trim();
+
+  // Split into sentences and drop the ones that are pure accusations, so
+  // the template below only ever quotes neutral, non-insulting observations.
+  const sentences = trimmed
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const observationSentences = sentences.filter((s) => !isAccusationSentence(s));
+  const hadAccusations = observationSentences.length < sentences.length;
+  const observation =
+    observationSentences.length > 0
+      ? observationSentences.join(' ')
+      : 'das, was gerade zwischen uns passiert.';
 
   const feelingPatterns: [RegExp, string][] = [
     [/genervt|nervst|nervt/i, 'genervt'],
@@ -86,29 +119,29 @@ function buildDemoTranslation(originalMessage: string) {
     ['überfordert', 'Entlastung'],
     ['traurig', 'Nähe und Verständnis'],
     ['verletzt', 'Respekt'],
-    ['wütend', 'Fairness und gehört zu werden'],
-    ['frustriert', 'gehört zu werden'],
+    ['wütend', 'Fairness und Gehörtwerden'],
+    ['frustriert', 'Gehörtwerden'],
   ];
   const need = needPatterns.find(([key]) => key === feeling)?.[1] || 'gehört zu werden';
 
-  const weilMatch = trimmed.match(/weil\s+(.+?)([.!?]|$)/i);
+  // Only look for a "weil ..." reason inside the filtered observation, never
+  // in a dropped accusatory sentence.
+  const weilMatch = observation.match(/weil\s+(.+?)([.!?]|$)/i);
   const reasonClause = weilMatch ? ` weil ${weilMatch[1].trim()}.` : '';
 
   return {
     variants: {
       short:
-        `Ich bin gerade ${feeling}, wenn ich an "${trimmed}" denke.${reasonClause} ` +
+        `Ich bin gerade ${feeling}, wenn ich sehe: "${observation}"${reasonClause} ` +
         'Können wir kurz darüber reden?',
       deep:
-        `Ich bin gerade ${feeling}, wenn ich sehe: "${trimmed}"${reasonClause} ` +
+        `Ich bin gerade ${feeling}, wenn ich sehe: "${observation}"${reasonClause} ` +
         `Mir ist wichtig, dass wir ${need} hinbekommen. Wärst du bereit, dich heute kurz mit mir hinzusetzen, ` +
         'damit wir das gemeinsam anschauen können?',
     },
-    insights:
-      'Demo-Modus (kein OPENAI_API_KEY hinterlegt): Dieses erkannte Bedürfnis und die Formulierung sind eine ' +
-      'grobe Annäherung aus Stichwörtern, keine echte Analyse. Für eine Umformulierung, die deinen Text wirklich ' +
-      'versteht und Vorwürfe zuverlässig entfernt, OPENAI_API_KEY setzen (siehe .env.example) – dann übernimmt ' +
-      'GPT-4o-mini die Umformulierung.',
+    insights: hadAccusations
+      ? `Vorwürfe und Verallgemeinerungen wurden entfernt – übrig bleibt, worum es eigentlich geht: ${need}.`
+      : `Dahinter steckt vermutlich das Bedürfnis nach ${need}.`,
   };
 }
 
