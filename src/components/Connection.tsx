@@ -20,6 +20,7 @@ import {
   Gem,
   Clock,
 } from 'lucide-react';
+import { SectionLabel } from './SectionLabel';
 
 const DAILY_QUESTIONS = [
   'Was war das beste Moment heute, das wir gemeinsam erlebt haben?',
@@ -129,13 +130,14 @@ export const Connection = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-semibold text-gray-900">Verbindung & Inspiration</h1>
-        <p className="text-gray-600 text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
+        <SectionLabel index={4} label="Verbindung" />
+        <h1 className="text-3xl font-extrabold text-gray-900">Verbindung & Inspiration</h1>
+        <p className="text-gray-500 font-light text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
       </div>
 
       {/* Daily Question — black feature card with a serif quote, editorial style */}
       <div className="px-4">
-        <div className="card p-5 bg-black border-black space-y-3">
+        <div className="card p-5 bg-couple-dark border-couple-dark space-y-3">
           <div className="flex items-center gap-2 mb-2">
             <Lightbulb className="text-white" size={20} />
             <p className="font-semibold text-sm text-gray-400 uppercase tracking-wide">

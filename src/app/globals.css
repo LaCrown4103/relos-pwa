@@ -137,9 +137,9 @@ input[type='range'] {
   border-radius: 8px;
   background: linear-gradient(
     to right,
-    #000000 0%,
-    #737373 50%,
-    #d4d4d4 100%
+    #001f5c 0%,
+    #0066cc 50%,
+    #00d4dd 100%
   );
   outline: none;
   -webkit-appearance: none;
@@ -155,7 +155,7 @@ input[type='range']::-webkit-slider-thumb {
   background: white;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid #000000;
+  border: 3px solid #0066CC;
   transition: transform 100ms ease-out;
 }
 
@@ -170,7 +170,7 @@ input[type='range']::-moz-range-thumb {
   background: white;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 3px solid #000000;
+  border: 3px solid #0066CC;
   transition: transform 100ms ease-out;
 }
 

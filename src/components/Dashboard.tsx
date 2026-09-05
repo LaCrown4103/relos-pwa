@@ -10,6 +10,7 @@ import {
 } from '@/lib/dataManager';
 import { SharedTask } from '@/lib/types';
 import { CheckCircle2, Circle, Plus } from 'lucide-react';
+import { SectionLabel } from './SectionLabel';
 
 export const Dashboard = () => {
   const { coupleId, currentUser, partner } = useCouple();
@@ -81,7 +82,7 @@ export const Dashboard = () => {
   };
 
   const getEnergyColor = (level: number) => {
-    if (level >= 8) return 'text-black';
+    if (level >= 8) return 'text-couple-dark';
     if (level >= 5) return 'text-gray-500';
     return 'text-gray-300';
   };
@@ -96,8 +97,9 @@ export const Dashboard = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 text-sm mt-1">
+        <SectionLabel index={1} label="Dashboard" />
+        <h1 className="text-3xl font-extrabold text-gray-900">Dashboard</h1>
+        <p className="text-gray-500 font-light text-sm mt-1">
           {new Date().toLocaleDateString('de-CH', {
             weekday: 'long',
             day: 'numeric',

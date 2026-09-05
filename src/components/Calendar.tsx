@@ -5,6 +5,7 @@ import { useCouple } from '@/lib/CoupleContext';
 import { getCalendarEvents, addCalendarEvent, updateCalendarEvent } from '@/lib/dataManager';
 import { CalendarEvent, EventType } from '@/lib/types';
 import { Plus, AlertCircle, History } from 'lucide-react';
+import { SectionLabel } from './SectionLabel';
 
 export const Calendar = () => {
   const { coupleId, currentUser } = useCouple();
@@ -99,8 +100,8 @@ export const Calendar = () => {
   const eventTypeConfig = {
     [EventType.PaarZeit]: {
       label: 'Paar-Zeit',
-      color: 'bg-black text-white border-black',
-      dotColor: 'bg-black',
+      color: 'bg-couple-dark text-white border-couple-dark',
+      dotColor: 'bg-couple-dark',
     },
     [EventType.MeTime]: {
       label: 'Me-Time',
@@ -162,14 +163,15 @@ export const Calendar = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-semibold text-gray-900">Kalender</h1>
-        <p className="text-gray-600 text-sm mt-1">Planen & Verbindung</p>
+        <SectionLabel index={2} label="Kalender" />
+        <h1 className="text-3xl font-extrabold text-gray-900">Kalender</h1>
+        <p className="text-gray-500 font-light text-sm mt-1">Planen & Verbindung</p>
       </div>
 
       {/* Me-Time Warning */}
       {userHasNoMeTime && (
         <div className="px-4">
-          <div className="card bg-black text-white border-black p-4 flex gap-3">
+          <div className="card bg-couple-dark text-white border-couple-dark p-4 flex gap-3">
             <AlertCircle className="text-white flex-shrink-0" size={20} />
             <div className="flex-1">
               <p className="text-sm font-semibold text-white">

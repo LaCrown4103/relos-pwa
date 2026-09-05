@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         couple: {
-          primary: '#000000',
-          secondary: '#525252',
-          accent: '#000000',
-          light: '#f5f5f5',
-          dark: '#262626',
+          primary: '#0066CC',
+          secondary: '#00C9D7',
+          accent: '#0075D8',
+          light: '#EAF4FF',
+          dark: '#001F5C',
         },
       },
       fontFamily: {

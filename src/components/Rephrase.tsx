@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useCouple } from '@/lib/CoupleContext';
 import { Copy, Send, Loader, Leaf, Lightbulb, ShieldAlert } from 'lucide-react';
 import { TranslationVariants } from '@/lib/types';
+import { SectionLabel } from './SectionLabel';
 
 interface TranslationState {
   original: string;
@@ -63,7 +64,7 @@ export const Rephrase = () => {
     label: string,
     text: string
   ) => (
-    <div className="card p-4 space-y-3 bg-black border-black">
+    <div className="card p-4 space-y-3 bg-couple-dark border-couple-dark">
       <p className="text-xs font-semibold text-gray-400 uppercase flex items-center gap-1.5">
         <Leaf size={14} />
         {label}
@@ -83,7 +84,7 @@ export const Rephrase = () => {
             navigator.clipboard.writeText(text);
             alert('Bereit zum Versenden!');
           }}
-          className="flex-1 flex items-center justify-center gap-2 text-sm bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200"
+          className="flex-1 flex items-center justify-center gap-2 text-sm bg-white text-couple-dark px-6 py-3 rounded-full font-medium hover:bg-gray-200"
         >
           <Send size={18} />
           Senden
@@ -96,8 +97,9 @@ export const Rephrase = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-semibold text-gray-900">Rephrase</h1>
-        <p className="text-gray-600 text-sm mt-1">
+        <SectionLabel index={3} label="Rephrase" />
+        <h1 className="text-3xl font-extrabold text-gray-900">Rephrase</h1>
+        <p className="text-gray-500 font-light text-sm mt-1">
           Frust in konstruktive Botschaften umwandeln
         </p>
       </div>
