@@ -12,7 +12,15 @@ import {
   Plus,
   Loader,
   Lightbulb,
+  Plane,
+  Target,
+  Trophy,
+  Gift,
+  Wallet,
+  Gem,
+  Clock,
 } from 'lucide-react';
+import { SectionLabel } from './SectionLabel';
 
 const DAILY_QUESTIONS = [
   'Was war das beste Moment heute, das wir gemeinsam erlebt haben?',
@@ -94,10 +102,16 @@ export const Connection = () => {
     }
   };
 
-  const categoryEmojis = {
-    vacation: '✈️',
-    goal: '🎯',
-    milestone: '🏆',
+  const categoryIcons = {
+    vacation: Plane,
+    goal: Target,
+    milestone: Trophy,
+  };
+
+  const costIcons = {
+    gratis: Gift,
+    budget: Wallet,
+    luxus: Gem,
   };
 
   const categoryLabels = {
@@ -116,23 +130,24 @@ export const Connection = () => {
     <div className="space-y-6 pb-20">
       {/* Header */}
       <div className="pt-6 px-4">
-        <h1 className="text-3xl font-bold text-gray-900">Verbindung & Inspiration</h1>
-        <p className="text-gray-600 text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
+        <SectionLabel index={4} label="Verbindung" />
+        <h1 className="text-3xl font-extrabold text-white">Verbindung & Inspiration</h1>
+        <p className="text-gray-400 font-light text-sm mt-1">Gemeinsam träumen, erleben, wachsen</p>
       </div>
 
-      {/* Daily Question */}
+      {/* Daily Question — bright feature card with a serif quote, editorial style */}
       <div className="px-4">
-        <div className="card p-4 bg-gradient-to-br from-couple-light to-white space-y-3 border-2 border-couple-primary">
+        <div className="card p-5 bg-white border-white space-y-3">
           <div className="flex items-center gap-2 mb-2">
-            <Lightbulb className="text-couple-primary" size={20} />
-            <p className="font-semibold text-sm text-couple-primary">
+            <Lightbulb className="text-couple-dark" size={20} />
+            <p className="font-semibold text-sm text-gray-500 uppercase tracking-wide">
               Heutige Gesprächsfrage
             </p>
           </div>
-          <p className="text-sm text-gray-900 leading-relaxed font-medium">
-            "{dailyQuestion}"
+          <p className="font-serif italic text-xl text-couple-dark leading-snug">
+            &ldquo;{dailyQuestion}&rdquo;
           </p>
-          <p className="text-xs text-gray-600 italic">
+          <p className="text-xs text-gray-500">
             Nehmen Sie sich Zeit für ein echtes Gespräch heute...
           </p>
         </div>
@@ -140,7 +155,7 @@ export const Connection = () => {
 
       {/* Date Night Generator */}
       <div className="px-4 space-y-3">
-        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <Sparkles size={20} className="text-couple-primary" />
           Date Night Generator
         </h2>
@@ -157,7 +172,7 @@ export const Connection = () => {
         {showDateForm && (
           <div className="card p-4 space-y-3">
             <label className="block">
-              <span className="text-sm font-medium text-gray-900 mb-2 block">
+              <span className="text-sm font-medium text-white mb-2 block">
                 Budget
               </span>
               <select
@@ -165,14 +180,14 @@ export const Connection = () => {
                 onChange={(e) => setBudget(e.target.value)}
                 className="input-base"
               >
-                <option value="gratis">Gratis 🤑</option>
-                <option value="budget">Budget 💰</option>
-                <option value="luxus">Luxus 🥂</option>
+                <option value="gratis">Gratis</option>
+                <option value="budget">Budget</option>
+                <option value="luxus">Luxus</option>
               </select>
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-gray-900 mb-2 block">
+              <span className="text-sm font-medium text-white mb-2 block">
                 Ort
               </span>
               <select
@@ -186,7 +201,7 @@ export const Connection = () => {
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-gray-900 mb-2 block">
+              <span className="text-sm font-medium text-white mb-2 block">
                 Energie-Level
               </span>
               <select
@@ -194,9 +209,9 @@ export const Connection = () => {
                 onChange={(e) => setEnergyLevel(e.target.value)}
                 className="input-base"
               >
-                <option value="low">Couch-Modus 🛋️</option>
-                <option value="medium">Gemütlich 😊</option>
-                <option value="high">Abenteuer 🚀</option>
+                <option value="low">Couch-Modus</option>
+                <option value="medium">Gemütlich</option>
+                <option value="high">Abenteuer</option>
               </select>
             </label>
 
@@ -245,26 +260,31 @@ export const Connection = () => {
             {dateIdeas.map((idea, idx) => (
               <div key={idx} className="card p-4 space-y-3 border-l-4 border-couple-secondary">
                 <div>
-                  <h3 className="font-semibold text-gray-900">{idea.title}</h3>
-                  <p className="text-sm text-gray-600 mt-1">{idea.description}</p>
+                  <h3 className="font-semibold text-white">{idea.title}</h3>
+                  <p className="text-sm text-gray-300 mt-1">{idea.description}</p>
                 </div>
 
                 <div className="flex gap-2 text-xs">
-                  <span className="bg-couple-secondary/10 text-couple-secondary px-2 py-1 rounded">
+                  <span className="bg-couple-secondary/15 text-couple-secondary px-2 py-1 rounded-full flex items-center gap-1">
+                    {(() => {
+                      const CostIcon = costIcons[idea.estimatedCost];
+                      return <CostIcon size={14} />;
+                    })()}
                     {idea.estimatedCost === 'gratis'
-                      ? '🤑 Gratis'
+                      ? 'Gratis'
                       : idea.estimatedCost === 'budget'
-                      ? '💰 Budget'
-                      : '🥂 Luxus'}
+                      ? 'Budget'
+                      : 'Luxus'}
                   </span>
-                  <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                    ⏱️ {idea.estimatedDuration}
+                  <span className="bg-white/10 text-gray-300 px-2 py-1 rounded-full flex items-center gap-1">
+                    <Clock size={14} />
+                    {idea.estimatedDuration}
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-xs font-semibold text-gray-700">Schritt-für-Schritt:</p>
-                  <ol className="text-xs text-gray-600 space-y-1 list-decimal list-inside">
+                  <p className="text-xs font-semibold text-gray-300">Schritt-für-Schritt:</p>
+                  <ol className="text-xs text-gray-400 space-y-1 list-decimal list-inside">
                     {idea.steps.map((step, stepIdx) => (
                       <li key={stepIdx}>{step}</li>
                     ))}
@@ -278,7 +298,7 @@ export const Connection = () => {
 
       {/* Bucket List */}
       <div className="px-4 space-y-3">
-        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <Heart size={20} className="text-couple-primary" />
           Gemeinsame Träume & Ziele
         </h2>
@@ -307,9 +327,9 @@ export const Connection = () => {
               onChange={(e) => setNewItemCategory(e.target.value as 'vacation' | 'goal' | 'milestone')}
               className="input-base"
             >
-              <option value="vacation">✈️ Ferien</option>
-              <option value="goal">🎯 Ziel</option>
-              <option value="milestone">🏆 Meilenstein</option>
+              <option value="vacation">Ferien</option>
+              <option value="goal">Ziel</option>
+              <option value="milestone">Meilenstein</option>
             </select>
 
             <div className="flex gap-2">
@@ -326,20 +346,22 @@ export const Connection = () => {
           </div>
         )}
 
-        {Object.entries(bucketsByCategory).map(([category, items]) => (
+        {Object.entries(bucketsByCategory).map(([category, items]) => {
+          const CategoryIcon = categoryIcons[category as keyof typeof categoryIcons];
+          return (
           <div key={category} className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-700 px-2">
-              {categoryEmojis[category as keyof typeof categoryEmojis]}{' '}
+            <h3 className="text-sm font-semibold text-gray-300 px-2 flex items-center gap-1.5">
+              <CategoryIcon size={16} className="text-couple-primary" />
               {categoryLabels[category as keyof typeof categoryLabels]}
             </h3>
 
             {items.length === 0 ? (
-              <p className="text-xs text-gray-400 px-2">Noch keine Träume...</p>
+              <p className="text-xs text-gray-500 px-2">Noch keine Träume...</p>
             ) : (
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="card p-3 flex items-center gap-3 hover:bg-gray-50 transition-colors"
+                  className="card p-3 flex items-center gap-3 hover:bg-white/5 transition-colors"
                 >
                   <button
                     onClick={() => handleToggleItem(item.id, item.completed)}
@@ -355,14 +377,14 @@ export const Connection = () => {
                     <p
                       className={`text-sm font-medium ${
                         item.completed
-                          ? 'line-through text-gray-400'
-                          : 'text-gray-900'
+                          ? 'line-through text-gray-500'
+                          : 'text-white'
                       }`}
                     >
                       {item.title}
                     </p>
                     {item.completedAt && (
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-400 mt-1">
                         ✓ Erreicht am{' '}
                         {new Date(item.completedAt).toLocaleDateString('de-CH')}
                       </p>
@@ -372,7 +394,8 @@ export const Connection = () => {
               ))
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

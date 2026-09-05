@@ -3,6 +3,7 @@ import {
   DailyStatus,
   SharedTask,
   CalendarEvent,
+  CalendarEventEdit,
   BucketListItem,
   EventType,
 } from './types';
@@ -53,7 +54,6 @@ export const initializeDemoData = (coupleId: string) => {
     };
 
     const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
     existingData.dailyStatus = [
       {
@@ -227,10 +227,14 @@ export const getSharedTasks = (coupleId: string): SharedTask[] => {
   return data.sharedTasks.filter((t) => t.coupleId === coupleId);
 };
 
-export const addSharedTask = (coupleId: string, task: Omit<SharedTask, 'id' | 'createdAt'>) => {
+export const addSharedTask = (
+  coupleId: string,
+  task: Omit<SharedTask, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.sharedTasks.push({
     ...task,
+    coupleId,
     id: 'task_' + Date.now(),
     createdAt: new Date().toISOString(),
   });
@@ -252,13 +256,76 @@ export const getCalendarEvents = (coupleId: string): CalendarEvent[] => {
   return data.calendarEvents.filter((e) => e.coupleId === coupleId);
 };
 
-export const addCalendarEvent = (coupleId: string, event: Omit<CalendarEvent, 'id' | 'createdAt'>) => {
+export const addCalendarEvent = (
+  coupleId: string,
+  event: Omit<CalendarEvent, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.calendarEvents.push({
     ...event,
+    coupleId,
     id: 'event_' + Date.now(),
     createdAt: new Date().toISOString(),
+    history: [],
   });
+  saveData(data);
+};
+
+// Updating a calendar event records who changed what and when. Entries are
+// only ever appended, never edited or removed, so the trail can't be faked.
+export const updateCalendarEvent = (
+  eventId: string,
+  updates: Partial<Pick<CalendarEvent, 'title' | 'type' | 'startDate' | 'description'>>,
+  editor: { id: string; name: string }
+) => {
+  const data = loadData();
+  const event = data.calendarEvents.find((e) => e.id === eventId);
+  if (!event) return;
+
+  const fieldLabels: Record<string, string> = {
+    title: 'Titel',
+    type: 'Kategorie',
+    startDate: 'Datum/Zeit',
+    description: 'Beschreibung',
+  };
+
+  const changeSummaries: string[] = [];
+  (Object.keys(updates) as Array<keyof typeof updates>).forEach((field) => {
+    const newValue = updates[field];
+    const oldValue = event[field];
+    if (newValue === undefined) return;
+
+    // The edit form only offers minute precision, while a startDate created
+    // via `new Date().toISOString()` carries seconds/milliseconds — comparing
+    // the raw strings would flag "changed" on every save even when the user
+    // only touched the title. Compare at minute resolution instead.
+    if (field === 'startDate') {
+      const oldMinute = Math.floor(new Date(oldValue as string).getTime() / 60000);
+      const newMinute = Math.floor(new Date(newValue as string).getTime() / 60000);
+      if (oldMinute !== newMinute) {
+        changeSummaries.push(`${fieldLabels[field]} geändert`);
+      }
+      return;
+    }
+
+    if (newValue !== oldValue) {
+      changeSummaries.push(`${fieldLabels[field] || field} geändert`);
+    }
+  });
+
+  if (changeSummaries.length === 0) return;
+
+  Object.assign(event, updates);
+
+  const historyEntry: CalendarEventEdit = {
+    userId: editor.id,
+    userName: editor.name,
+    changedAt: new Date().toISOString(),
+    summary: changeSummaries.join(', '),
+  };
+
+  event.history = [...(event.history || []), historyEntry];
+
   saveData(data);
 };
 
@@ -268,10 +335,14 @@ export const getBucketList = (coupleId: string): BucketListItem[] => {
   return data.bucketList.filter((b) => b.coupleId === coupleId);
 };
 
-export const addBucketListItem = (coupleId: string, item: Omit<BucketListItem, 'id' | 'createdAt'>) => {
+export const addBucketListItem = (
+  coupleId: string,
+  item: Omit<BucketListItem, 'id' | 'createdAt' | 'coupleId'>
+) => {
   const data = loadData();
   data.bucketList.push({
     ...item,
+    coupleId,
     id: 'bucket_' + Date.now(),
     createdAt: new Date().toISOString(),
   });
