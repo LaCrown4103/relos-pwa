@@ -25,7 +25,7 @@ export default function Home() {
     if (tab && SECTIONS.includes(tab)) {
       setActiveTab(tab);
     }
-    setShowLanding(!localStorage.getItem(LANDING_SEEN_KEY));
+    setShowLanding(!sessionStorage.getItem(LANDING_SEEN_KEY));
   }, []);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function Home() {
   }, []);
 
   const handleEnterApp = () => {
-    localStorage.setItem(LANDING_SEEN_KEY, '1');
+    sessionStorage.setItem(LANDING_SEEN_KEY, '1');
     setShowLanding(false);
   };
 

@@ -118,7 +118,7 @@ button:active {
 
   /* Button styles — full pill radius, matching iOS's rounded call-to-action shape */
   .btn-primary {
-    @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-accent;
+    @apply bg-white text-couple-dark px-6 py-3 rounded-full font-medium hover:bg-gray-200;
   }
 
   .btn-secondary {
