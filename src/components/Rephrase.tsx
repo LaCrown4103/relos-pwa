@@ -64,17 +64,17 @@ export const Rephrase = () => {
     label: string,
     text: string
   ) => (
-    <div className="card p-4 space-y-3 bg-couple-dark border-couple-dark">
-      <p className="text-xs font-semibold text-gray-400 uppercase flex items-center gap-1.5">
+    <div className="card p-4 space-y-3 bg-white border-white">
+      <p className="text-xs font-semibold text-gray-500 uppercase flex items-center gap-1.5">
         <Leaf size={14} />
         {label}
       </p>
-      <p className="text-sm text-white leading-relaxed font-medium">{text}</p>
+      <p className="text-sm text-couple-dark leading-relaxed font-medium">{text}</p>
 
       <div className="flex gap-2 pt-2">
         <button
           onClick={() => handleCopy(variant, text)}
-          className="flex-1 flex items-center justify-center gap-2 text-sm bg-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/20"
+          className="flex-1 flex items-center justify-center gap-2 text-sm bg-black/5 text-couple-dark px-6 py-3 rounded-full font-medium hover:bg-black/10"
         >
           <Copy size={18} />
           {copiedVariant === variant ? 'Kopiert!' : 'Kopieren'}
@@ -84,7 +84,7 @@ export const Rephrase = () => {
             navigator.clipboard.writeText(text);
             alert('Bereit zum Versenden!');
           }}
-          className="flex-1 flex items-center justify-center gap-2 text-sm bg-white text-couple-dark px-6 py-3 rounded-full font-medium hover:bg-gray-200"
+          className="flex-1 flex items-center justify-center gap-2 text-sm bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-accent"
         >
           <Send size={18} />
           Senden
@@ -98,17 +98,17 @@ export const Rephrase = () => {
       {/* Header */}
       <div className="pt-6 px-4">
         <SectionLabel index={3} label="Rephrase" />
-        <h1 className="text-3xl font-extrabold text-gray-900">Rephrase</h1>
-        <p className="text-gray-500 font-light text-sm mt-1">
+        <h1 className="text-3xl font-extrabold text-white">Rephrase</h1>
+        <p className="text-gray-400 font-light text-sm mt-1">
           Frust in konstruktive Botschaften umwandeln
         </p>
       </div>
 
       {/* Info */}
       <div className="px-4">
-        <div className="card bg-couple-light p-4 space-y-2">
-          <p className="text-sm font-medium text-gray-900">Wie es funktioniert:</p>
-          <ol className="text-xs text-gray-600 space-y-1 list-decimal list-inside">
+        <div className="card p-4 space-y-2">
+          <p className="text-sm font-medium text-white">Wie es funktioniert:</p>
+          <ol className="text-xs text-gray-300 space-y-1 list-decimal list-inside">
             <li>Schreiben Sie ungefiltert auf, was Sie frustriert</li>
             <li>Rephrase wandelt es in GFK-Sprache um</li>
             <li>Kopieren Sie die Nachricht oder senden Sie sie direkt</li>
@@ -119,7 +119,7 @@ export const Rephrase = () => {
       {/* Input Section */}
       <div className="px-4 space-y-3">
         <label className="block">
-          <span className="text-sm font-medium text-gray-900 block mb-2">
+          <span className="text-sm font-medium text-white block mb-2">
             Was frustriert Sie gerade?
           </span>
           <textarea
@@ -136,7 +136,7 @@ export const Rephrase = () => {
           disabled={loading || !frustration.trim()}
           className={`w-full py-3 rounded-full font-medium flex items-center justify-center gap-2 transition-all ${
             loading || !frustration.trim()
-              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              ? 'bg-white/10 text-gray-500 cursor-not-allowed'
               : 'btn-primary'
           }`}
         >
@@ -154,9 +154,9 @@ export const Rephrase = () => {
       {/* Blocked / Refused */}
       {translation && (translation.blocked || translation.refused) && (
         <div className="px-4 space-y-4">
-          <div className="card p-4 space-y-2 bg-gray-50 border-gray-200 flex gap-3">
-            <ShieldAlert className="text-gray-700 flex-shrink-0 mt-0.5" size={20} />
-            <p className="text-sm text-gray-800 leading-relaxed">{translation.message}</p>
+          <div className="card p-4 space-y-2 flex gap-3">
+            <ShieldAlert className="text-couple-secondary flex-shrink-0 mt-0.5" size={20} />
+            <p className="text-sm text-gray-200 leading-relaxed">{translation.message}</p>
           </div>
           <button
             onClick={() => {
@@ -175,10 +175,10 @@ export const Rephrase = () => {
         <div className="px-4 space-y-4">
           {/* Original */}
           <div className="card p-4 space-y-2">
-            <p className="text-xs font-semibold text-gray-600 uppercase">
+            <p className="text-xs font-semibold text-gray-400 uppercase">
               Original-Nachricht
             </p>
-            <p className="text-sm text-gray-800 leading-relaxed">{translation.original}</p>
+            <p className="text-sm text-gray-200 leading-relaxed">{translation.original}</p>
           </div>
 
           {variantCard('short', 'Kurz & direkt', translation.variants.short)}
@@ -186,12 +186,12 @@ export const Rephrase = () => {
 
           {/* Insights */}
           {translation.insights && (
-            <div className="card p-4 space-y-2 bg-gray-50 border-gray-200">
-              <p className="text-xs font-semibold text-gray-900 uppercase flex items-center gap-1.5">
+            <div className="card p-4 space-y-2">
+              <p className="text-xs font-semibold text-white uppercase flex items-center gap-1.5">
                 <Lightbulb size={14} />
                 Warum diese Umwandlung?
               </p>
-              <p className="text-xs text-gray-600 leading-relaxed">{translation.insights}</p>
+              <p className="text-xs text-gray-300 leading-relaxed">{translation.insights}</p>
             </div>
           )}
 
@@ -210,22 +210,22 @@ export const Rephrase = () => {
 
       {/* GFK Info */}
       <div className="px-4 pb-4">
-        <div className="card p-4 space-y-3 bg-gray-50">
-          <p className="text-sm font-semibold text-gray-900">
+        <div className="card p-4 space-y-3">
+          <p className="text-sm font-semibold text-white">
             Gewaltfreie Kommunikation (GFK)
           </p>
-          <div className="text-xs text-gray-700 space-y-2">
+          <div className="text-xs text-gray-300 space-y-2">
             <p>
-              <span className="font-medium">1. Beobachtung:</span> Fakten ohne Vorwürfe
+              <span className="font-medium text-white">1. Beobachtung:</span> Fakten ohne Vorwürfe
             </p>
             <p>
-              <span className="font-medium">2. Gefühl:</span> Ihre echte emotionale Reaktion
+              <span className="font-medium text-white">2. Gefühl:</span> Ihre echte emotionale Reaktion
             </p>
             <p>
-              <span className="font-medium">3. Bedürfnis:</span> Was dahinter eigentlich steckt
+              <span className="font-medium text-white">3. Bedürfnis:</span> Was dahinter eigentlich steckt
             </p>
             <p>
-              <span className="font-medium">4. Bitte:</span> Konkret, was Sie sich wünschen
+              <span className="font-medium text-white">4. Bitte:</span> Konkret, was Sie sich wünschen
             </p>
           </div>
         </div>

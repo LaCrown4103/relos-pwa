@@ -100,18 +100,18 @@ export const Calendar = () => {
   const eventTypeConfig = {
     [EventType.PaarZeit]: {
       label: 'Paar-Zeit',
-      color: 'bg-couple-dark text-white border-couple-dark',
-      dotColor: 'bg-couple-dark',
+      color: 'bg-couple-secondary text-couple-dark border-couple-secondary',
+      dotColor: 'bg-couple-secondary',
     },
     [EventType.MeTime]: {
       label: 'Me-Time',
-      color: 'bg-gray-200 text-gray-900 border-gray-400',
-      dotColor: 'bg-gray-500',
+      color: 'bg-couple-surface text-white border-gray-500',
+      dotColor: 'bg-gray-400',
     },
     [EventType.Verpflichtung]: {
       label: 'Verpflichtung',
-      color: 'bg-white text-gray-700 border-gray-300',
-      dotColor: 'bg-gray-300',
+      color: 'bg-couple-surface text-gray-300 border-white/20',
+      dotColor: 'bg-gray-500',
     },
   };
 
@@ -164,20 +164,20 @@ export const Calendar = () => {
       {/* Header */}
       <div className="pt-6 px-4">
         <SectionLabel index={2} label="Kalender" />
-        <h1 className="text-3xl font-extrabold text-gray-900">Kalender</h1>
-        <p className="text-gray-500 font-light text-sm mt-1">Planen & Verbindung</p>
+        <h1 className="text-3xl font-extrabold text-white">Kalender</h1>
+        <p className="text-gray-400 font-light text-sm mt-1">Planen & Verbindung</p>
       </div>
 
-      {/* Me-Time Warning */}
+      {/* Me-Time Warning — bright card so it pops against the dark page */}
       {userHasNoMeTime && (
         <div className="px-4">
-          <div className="card bg-couple-dark text-white border-couple-dark p-4 flex gap-3">
-            <AlertCircle className="text-white flex-shrink-0" size={20} />
+          <div className="card bg-white text-couple-dark border-white p-4 flex gap-3">
+            <AlertCircle className="text-couple-dark flex-shrink-0" size={20} />
             <div className="flex-1">
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-couple-dark">
                 Me-Time-Erinnerung
               </p>
-              <p className="text-xs text-gray-300 mt-1">
+              <p className="text-xs text-gray-600 mt-1">
                 Planen Sie Me-Time in den nächsten 7 Tagen!
               </p>
             </div>
@@ -200,7 +200,7 @@ export const Calendar = () => {
       <div className="px-4">
         <div className="card p-4">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold text-gray-900">
+            <h2 className="font-semibold text-white">
               {currentMonth.toLocaleDateString('de-CH', {
                 month: 'long',
                 year: 'numeric',
@@ -232,7 +232,7 @@ export const Calendar = () => {
 
           <div className="grid grid-cols-7 gap-2">
             {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day) => (
-              <div key={day} className="text-center text-xs font-semibold text-gray-600 py-2">
+              <div key={day} className="text-center text-xs font-semibold text-gray-400 py-2">
                 {day}
               </div>
             ))}
@@ -243,7 +243,7 @@ export const Calendar = () => {
                 return (
                   <div
                     key={idx}
-                    className="aspect-square rounded-lg border border-transparent bg-gray-50"
+                    className="aspect-square rounded-lg border border-transparent bg-white/5"
                   />
                 );
               }
@@ -252,9 +252,9 @@ export const Calendar = () => {
                   key={idx}
                   type="button"
                   onClick={() => handleDayClick(day)}
-                  className="aspect-square rounded-lg border border-gray-200 bg-white hover:border-couple-primary p-1 relative text-left"
+                  className="aspect-square rounded-lg border border-white/15 bg-couple-dark hover:border-couple-secondary p-1 relative text-left"
                 >
-                  <p className="text-xs font-medium text-gray-700">{day}</p>
+                  <p className="text-xs font-medium text-gray-300">{day}</p>
                   <div className="flex gap-0.5 mt-0.5 flex-wrap">
                     {dayEvents.map((event, i) => (
                       <div
@@ -274,7 +274,7 @@ export const Calendar = () => {
 
       {/* Event List */}
       <div className="px-4">
-        <h2 className="text-lg font-semibold text-gray-900 mb-3">Kommende Aktivitäten</h2>
+        <h2 className="text-lg font-semibold text-white mb-3">Kommende Aktivitäten</h2>
         <div className="space-y-2">
           {events
             .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
@@ -284,7 +284,7 @@ export const Calendar = () => {
                 key={event.id}
                 type="button"
                 onClick={() => openEditModal(event)}
-                className={`card p-3 border-l-4 w-full text-left hover:bg-gray-50 ${eventTypeConfig[event.type].color}`}
+                className={`card p-3 border-l-4 w-full text-left hover:brightness-110 ${eventTypeConfig[event.type].color}`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
@@ -304,11 +304,11 @@ export const Calendar = () => {
                       Uhr
                     </p>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="inline-block text-xs px-2 py-0.5 rounded-full bg-white/50">
+                      <span className="inline-block text-xs px-2 py-0.5 rounded-full bg-black/10">
                         {eventTypeConfig[event.type].label}
                       </span>
                       {event.history && event.history.length > 0 && (
-                        <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-white/50">
+                        <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-black/10">
                           <History size={12} />
                           {event.history.length}x bearbeitet
                         </span>
@@ -441,8 +441,8 @@ export const Calendar = () => {
             </div>
 
             {/* Change history — append-only, so nobody can quietly rewrite a shared plan */}
-            <div className="pt-2 border-t border-gray-100 space-y-2">
-              <p className="text-xs font-semibold text-gray-500 uppercase flex items-center gap-1.5">
+            <div className="pt-2 border-t border-white/10 space-y-2">
+              <p className="text-xs font-semibold text-gray-400 uppercase flex items-center gap-1.5">
                 <History size={14} />
                 Verlauf
               </p>
@@ -451,8 +451,8 @@ export const Calendar = () => {
                   {[...editingEvent.history]
                     .reverse()
                     .map((entry, idx) => (
-                      <li key={idx} className="text-xs text-gray-600">
-                        <span className="font-medium text-gray-900">{entry.userName}</span>{' '}
+                      <li key={idx} className="text-xs text-gray-300">
+                        <span className="font-medium text-white">{entry.userName}</span>{' '}
                         hat {entry.summary.toLowerCase()} ·{' '}
                         {new Date(entry.changedAt).toLocaleDateString('de-CH', {
                           day: 'numeric',
@@ -467,7 +467,7 @@ export const Calendar = () => {
                     ))}
                 </ul>
               ) : (
-                <p className="text-xs text-gray-400">Noch keine Änderungen.</p>
+                <p className="text-xs text-gray-500">Noch keine Änderungen.</p>
               )}
             </div>
           </div>

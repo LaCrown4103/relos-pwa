@@ -16,14 +16,14 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-t border-black/5 nav-safe-area z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-couple-dark/80 backdrop-blur-xl backdrop-saturate-150 border-t border-white/10 nav-safe-area z-50">
       <div className="flex justify-around max-w-md mx-auto">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => onTabChange(id)}
             className={`flex-1 flex flex-col items-center justify-center py-2.5 px-2 text-xs font-medium ${
-              activeTab === id ? 'text-couple-primary' : 'text-gray-500'
+              activeTab === id ? 'text-couple-secondary' : 'text-gray-400'
             }`}
             aria-label={label}
           >

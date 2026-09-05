@@ -10,12 +10,12 @@
 
 html {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  background: #ffffff;
+  background: #001f5c;
 }
 
 body {
-  background: #ffffff;
-  color: #000000;
+  background: #001f5c;
+  color: #f5f5f5;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -96,11 +96,11 @@ button:active {
    @tailwind utilities in the compiled CSS and silently override utilities
    like bg-black with bg-white — which is exactly what happened here. */
 @layer components {
-  /* Card styles — flat black-and-white style: a crisp hairline border reads
-     better on a pure white page than a soft shadow with nothing to contrast
-     against, and matches the graphic, high-contrast reference look. */
+  /* Card styles — a lighter navy surface (couple-surface) sits on top of the
+     always-dark-blue page (couple-dark) so cards read as a distinct layer
+     without turning the app light again. */
   .card {
-    @apply bg-white rounded-2xl border border-black/10;
+    @apply bg-couple-surface rounded-2xl border border-white/10;
   }
 
   .card-hover {
@@ -108,25 +108,25 @@ button:active {
   }
 
   .card-hover:hover {
-    @apply border-black/30;
+    @apply border-white/30;
   }
 
   /* Input styles */
   .input-base {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-couple-primary focus:outline-none focus:ring-4 focus:ring-couple-primary/10;
+    @apply w-full px-4 py-3 rounded-xl border border-white/15 bg-couple-dark text-white placeholder-gray-400 focus:border-couple-secondary focus:outline-none focus:ring-4 focus:ring-couple-secondary/20;
   }
 
   /* Button styles — full pill radius, matching iOS's rounded call-to-action shape */
   .btn-primary {
-    @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-dark;
+    @apply bg-couple-primary text-white px-6 py-3 rounded-full font-medium hover:bg-couple-accent;
   }
 
   .btn-secondary {
-    @apply bg-black/5 text-gray-900 px-6 py-3 rounded-full font-medium hover:bg-black/10;
+    @apply bg-white/10 text-white px-6 py-3 rounded-full font-medium hover:bg-white/20;
   }
 
   .btn-ghost {
-    @apply text-couple-primary hover:bg-couple-light px-4 py-2 rounded-full;
+    @apply text-couple-secondary hover:bg-white/10 px-4 py-2 rounded-full;
   }
 }
 

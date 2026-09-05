@@ -82,9 +82,9 @@ export const Dashboard = () => {
   };
 
   const getEnergyColor = (level: number) => {
-    if (level >= 8) return 'text-couple-dark';
-    if (level >= 5) return 'text-gray-500';
-    return 'text-gray-300';
+    if (level >= 8) return 'text-couple-secondary';
+    if (level >= 5) return 'text-gray-300';
+    return 'text-gray-500';
   };
 
   const categoryLabels: Record<string, string> = {
@@ -98,8 +98,8 @@ export const Dashboard = () => {
       {/* Header */}
       <div className="pt-6 px-4">
         <SectionLabel index={1} label="Dashboard" />
-        <h1 className="text-3xl font-extrabold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 font-light text-sm mt-1">
+        <h1 className="text-3xl font-extrabold text-white">Dashboard</h1>
+        <p className="text-gray-400 font-light text-sm mt-1">
           {new Date().toLocaleDateString('de-CH', {
             weekday: 'long',
             day: 'numeric',
@@ -110,12 +110,12 @@ export const Dashboard = () => {
 
       {/* Energy Tracker */}
       <div className="px-4 space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Tagesenergie</h2>
+        <h2 className="text-lg font-semibold text-white">Tagesenergie</h2>
 
         {/* Partner A */}
         <div className="card p-4 space-y-3">
           <div className="flex justify-between items-center">
-            <span className="font-medium text-gray-900">
+            <span className="font-medium text-white">
               {currentUser?.name}
             </span>
             <span
@@ -134,7 +134,7 @@ export const Dashboard = () => {
             }
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-gray-400">
             <span>Sehr müde</span>
             <span>Super ausgeruht</span>
           </div>
@@ -144,7 +144,7 @@ export const Dashboard = () => {
         {partner && (
           <div className="card p-4 space-y-3">
             <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-white">
                 {partner?.name}
               </span>
               <span
@@ -163,7 +163,7 @@ export const Dashboard = () => {
               }
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-400">
               <span>Sehr müde</span>
               <span>Super ausgeruht</span>
             </div>
@@ -174,7 +174,7 @@ export const Dashboard = () => {
       {/* Shared Tasks */}
       <div className="px-4 space-y-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-900">Aufgaben</h2>
+          <h2 className="text-lg font-semibold text-white">Aufgaben</h2>
           <button
             onClick={() => setShowAddTask(!showAddTask)}
             className="btn-ghost flex items-center gap-2"
@@ -211,16 +211,16 @@ export const Dashboard = () => {
         {/* Tasks by category */}
         {Object.entries(tasksByCategory).map(([category, catTasks]) => (
           <div key={category} className="space-y-2">
-            <h3 className="text-sm font-semibold text-gray-700 px-2">
+            <h3 className="text-sm font-semibold text-gray-300 px-2">
               {categoryLabels[category]}
             </h3>
             {catTasks.length === 0 ? (
-              <p className="text-sm text-gray-400 px-2">Keine Aufgaben</p>
+              <p className="text-sm text-gray-500 px-2">Keine Aufgaben</p>
             ) : (
               catTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="card p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors"
+                  className="card p-4 flex items-center gap-3 hover:bg-white/5 transition-colors"
                 >
                   <button
                     onClick={() => handleTaskToggle(task.id, task.completed)}
@@ -236,13 +236,13 @@ export const Dashboard = () => {
                     <p
                       className={`text-sm font-medium ${
                         task.completed
-                          ? 'line-through text-gray-400'
-                          : 'text-gray-900'
+                          ? 'line-through text-gray-500'
+                          : 'text-white'
                       }`}
                     >
                       {task.title}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-400 mt-1">
                       {task.assignedTo === 'both'
                         ? 'Beide'
                         : task.assignedTo === 'partner_a'
