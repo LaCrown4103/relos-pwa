@@ -22,7 +22,7 @@ cp .env.example .env.local
 
 # Falls Sie OpenAI API haben (optional):
 # .env.local öffnen und setzen:
-# NEXT_PUBLIC_OPENAI_API_KEY=sk-your-key-here
+# OPENAI_API_KEY=sk-your-key-here
 # NEXT_PUBLIC_DEMO_MODE=false
 
 # Ohne API Key funktioniert noch alles mit Demo-Daten!
@@ -85,7 +85,7 @@ docker-compose up
 - Verschiedene Event-Typen ausprobieren (Paar-Zeit, Me-Time, Verpflichtung)
 - Miniatur-Kalender erkunden
 
-**3️⃣ Wingman (Vent & Translate)**
+**3️⃣ Rephrase (Vent & Translate)**
 - Ungefilterte Frustration schreiben
 - "In konstruktive Ich-Botschaft umwandeln" klicken
 - AI-generierte Nachricht kopieren
@@ -159,7 +159,7 @@ npm install
 3. In `.env.local` einfügen:
 
 ```bash
-NEXT_PUBLIC_OPENAI_API_KEY=sk-proj-xxxx
+OPENAI_API_KEY=sk-proj-xxxx
 NEXT_PUBLIC_DEMO_MODE=false
 ```
 
@@ -167,7 +167,7 @@ NEXT_PUBLIC_DEMO_MODE=false
 
 ### AI Features testen
 
-**Wingman Screen:**
+**Rephrase Screen:**
 - Schreiben: "Das macht mich so wütend, du höchst mir ja gar nicht zu!"
 - Button klicken
 - AI konvertiert zu gewaltfreier Kommunikation
@@ -202,7 +202,7 @@ npm i -g vercel
 vercel
 
 # Env-Variablen im Vercel Dashboard setzen
-# NEXT_PUBLIC_OPENAI_API_KEY=sk-...
+# OPENAI_API_KEY=sk-...
 ```
 
 **Live unter**: `https://relos-xxxx.vercel.app`

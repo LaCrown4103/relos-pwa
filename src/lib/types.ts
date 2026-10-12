@@ -46,6 +46,13 @@ export enum EventType {
   Verpflichtung = 'verpflichtung',
 }
 
+export interface CalendarEventEdit {
+  userId: string;
+  userName: string;
+  changedAt: string; // ISO 8601
+  summary: string; // e.g. "Titel: 'Yoga' -> 'Yoga-Kurs'"
+}
+
 export interface CalendarEvent {
   id: string;
   coupleId: string;
@@ -56,6 +63,7 @@ export interface CalendarEvent {
   endDate?: string;
   description?: string;
   createdAt: string;
+  history?: CalendarEventEdit[]; // append-only edit trail
 }
 
 // AI Communication & Connection
@@ -65,10 +73,22 @@ export interface TranslationRequest {
   originalMessage: string;
 }
 
+export interface TranslationVariants {
+  short: string; // pragmatic, in-the-moment phrasing
+  deep: string; // names the underlying need, addresses the bigger picture
+}
+
 export interface TranslationResponse {
   originalMessage: string;
-  translatedMessage: string;
-  insights: string;
+  // Set when the message was blocked before reaching the model (extreme
+  // profanity/threats) or the model itself refused (manipulation/emotional
+  // blackmail it judged unsafe to neutrally reformulate). When either is
+  // set, `variants` is omitted — there is nothing to copy/send.
+  blocked?: boolean;
+  refused?: boolean;
+  message?: string;
+  variants?: TranslationVariants;
+  insights?: string;
 }
 
 export interface DateIdea {

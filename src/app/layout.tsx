@@ -1,15 +1,23 @@
 import type { Metadata, Viewport } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { CoupleProvider } from '@/lib/CoupleContext';
 
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'RelOS - Relationship Operating System',
-  description: 'Ein Betriebssystem für Paare - Kommunikation, Planung, Verbindung',
+  title: 'Kracher',
+  description: 'Kracher - Ein Betriebssystem für Paare - Kommunikation, Planung, Verbindung',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'RelOS',
+    title: 'Kracher',
   },
   formatDetection: {
     telephone: false,
@@ -34,14 +42,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
+    <html lang="de" className={`${GeistSans.variable} ${playfair.variable}`}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content="#e94b7d" />
+        <meta name="theme-color" content="#0066CC" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="RelOS" />
+        <meta name="apple-mobile-web-app-title" content="Kracher" />
         <link rel="icon" type="image/png" href="/icon-192.png" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>

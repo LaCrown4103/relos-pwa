@@ -29,7 +29,7 @@ Ein **vollständiges, produktionsreifes Progressive Web App (PWA)** für Paare m
 - ✅ Event-Erstellung im Modal
 - ✅ Kommende Aktivitäten-Liste
 
-#### 3. Wingman (Vent & Translate) ✅
+#### 3. Rephrase (Vent & Translate) ✅
 - ✅ Private Scratchpad für ungefilterte Frustration
 - ✅ KI-gestützte GFK (Gewaltfreie Kommunikation) Konvertierung
 - ✅ 4-Schritt GFK: Beobachtung → Gefühl → Grund → Bitte
@@ -86,7 +86,7 @@ relos-pwa/
 │   │   ├── BottomNav.tsx           # Mobile Navigation
 │   │   ├── Dashboard.tsx           # Energy + Tasks Screen
 │   │   ├── Calendar.tsx            # Events + Autonomy Screen
-│   │   ├── Wingman.tsx             # NVC Translator Screen
+│   │   ├── Rephrase.tsx             # NVC Translator Screen
 │   │   └── Connection.tsx          # Date Ideas + Bucket List
 │   └── lib/
 │       ├── types.ts                # Type Definitions + DB Schema
@@ -130,7 +130,7 @@ Browser: `http://localhost:3000`
 - Energy-Slider bewegen
 - Task hinzufügen
 - Calendar durchstöbern
-- Wingman ausprobieren
+- Rephrase ausprobieren
 - Bucket List füllen
 
 ### 3. In Production gehen (optional)
@@ -251,7 +251,7 @@ nav { position: fixed; bottom: 0; }
 - [ ] Energy-Tracker speichert Daten
 - [ ] Tasks können gelöst werden
 - [ ] Calendar zeigt Events
-- [ ] Wingman ohne API funktioniert (Demo)
+- [ ] Rephrase ohne API funktioniert (Demo)
 - [ ] Bucket List speichert Items
 - [ ] PWA installierbar (iOS Safari / Android Chrome)
 - [ ] TypeScript Type-Check erfolgreich: `npm run type-check`

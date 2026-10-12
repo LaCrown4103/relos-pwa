@@ -15,7 +15,7 @@ interface CoupleContextType {
 const CoupleContext = createContext<CoupleContextType | undefined>(undefined);
 
 export const CoupleProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [coupleId, setCoupleId] = useState<string>('couple_demo_' + Math.random().toString(36).substr(2, 9));
+  const [coupleId] = useState<string>('couple_demo_' + Math.random().toString(36).slice(2, 11));
   const [currentUser, setCurrentUser] = useState<CoupleUser | null>(null);
   const [partner, setPartner] = useState<CoupleUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);

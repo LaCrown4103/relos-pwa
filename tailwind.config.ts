@@ -10,15 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         couple: {
-          primary: '#e94b7d',
-          secondary: '#6366f1',
-          accent: '#f59e0b',
-          light: '#fce7f3',
-          dark: '#831843',
+          primary: '#0066CC',
+          secondary: '#00C9D7',
+          accent: '#0075D8',
+          light: '#EAF4FF',
+          dark: '#001F5C',
+          surface: '#0A2E5E',
         },
       },
       fontFamily: {
-        sans: ['system-ui', 'sans-serif'],
+        sans: ['var(--font-geist-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
       },
     },
   },
