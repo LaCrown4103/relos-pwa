@@ -52,17 +52,39 @@ select {
 }
 
 button {
+  /* Rest: a small, close shadow — the button barely lifts off the page.
+     Hover grows and softens it (handled per-component below) to read as
+     "further from the surface", like a bigger light source further away. */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   transition: transform 100ms ease-out, background-color 200ms ease,
-    box-shadow 200ms ease;
+    box-shadow 150ms ease, color 200ms ease;
 }
 
 button:active {
+  /* Press: shadow collapses back toward the rest state — the button is
+     "pushed back down" onto the page — and this must never lag the finger,
+     hence the much shorter duration than the hover grow. */
   transform: scale(0.97);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   transition-duration: 80ms;
 }
 
+@media (hover: hover) {
+  button:not(:disabled):hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    transform: translateY(-1px);
+  }
+
+  button:not(:disabled):active:hover {
+    transform: scale(0.97);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  button:active {
+  button:active,
+  button:hover,
+  .card-hover:hover,
+  .card-hover:active {
     transform: none;
   }
 
@@ -101,14 +123,25 @@ button:active {
      without turning the app light again. */
   .card {
     @apply bg-couple-surface rounded-2xl border border-white/10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   .card-hover {
     @apply transition-colors;
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 150ms;
   }
 
   .card-hover:hover {
     @apply border-white/30;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .card-hover:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition-duration: 80ms;
   }
 
   /* Input styles */
